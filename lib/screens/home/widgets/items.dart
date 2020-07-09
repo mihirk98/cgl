@@ -87,15 +87,27 @@ class ItemsWidget extends StatelessWidget {
           ),
           checkedItems.length == 0
               ? Container()
-              : Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "Checked",
-                      style: titleTextStyle,
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                      child: Text(
+                        "Checked",
+                        style: titleTextStyle,
+                      ),
                     ),
-                  ),
+                    Container(
+                      color: whiteColor,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.minimize,
+                          color: hintTextColor,
+                        ),
+                        onPressed: () => null,
+                      ),
+                    ),
+                  ],
                 ),
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),

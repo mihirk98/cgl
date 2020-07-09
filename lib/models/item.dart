@@ -36,18 +36,20 @@ Future<void> setItemStatus(
 }
 
 Future<void> addItem(BuildContext context, String item) async {
-  User userProvider = UserProvider.of(context);
-  String family = userProvider.document;
-  Firestore.instance
-      .collection("lists")
-      .document(family)
-      .collection("items")
-      .document(item)
-      .setData(
-    {
-      'status': 0,
-      'date': DateTime.now().millisecondsSinceEpoch,
-      'quantity': 1,
-    },
-  );
+  if (item.length != 0) {
+    User userProvider = UserProvider.of(context);
+    String family = userProvider.document;
+    Firestore.instance
+        .collection("lists")
+        .document(family)
+        .collection("items")
+        .document(item)
+        .setData(
+      {
+        'status': 0,
+        'date': DateTime.now().millisecondsSinceEpoch,
+        'quantity': 1,
+      },
+    );
+  }
 }
