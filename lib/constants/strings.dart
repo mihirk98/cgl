@@ -21,6 +21,7 @@ String familtNotExistsString =
     "Family does not exist...\n\nConfirm family name or try creating family.";
 String familyNameString = "Enter family name...";
 String noItemsString = "No items...";
+String addItemString = "Enter item here...";
 String logInString = "Log In";
 String familyString = "Family";
 

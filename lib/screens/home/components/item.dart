@@ -1,5 +1,6 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/styles.dart';
+import 'package:cgl/models/item.dart';
 import 'package:flutter/material.dart';
 
 class ItemWidget extends StatelessWidget {
@@ -7,44 +8,48 @@ class ItemWidget extends StatelessWidget {
     @required this.status,
     @required this.index,
     @required this.name,
+    @required this.quantity,
     Key key,
   }) : super(key: key);
 
   final bool status;
   final int index;
   final String name;
+  final int quantity;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: whiteColor,
-        border: Border(
-          bottom: BorderSide(
-            width: 0.5,
-            color: hintTextColor,
-          ),
-          top: BorderSide(
-            width: index == 1 ? 0 : 0.5,
-            color: hintTextColor,
-          ),
-        ),
-      ),
+      color: status ? backgroundColor : whiteColor,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+        padding: const EdgeInsets.fromLTRB(20, 6, 20, 6),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              name,
-              style: itemTextStyle,
+            Row(
+              children: <Widget>[
+                Text(
+                  name,
+                  style: status
+                      ? itemTextStyle.apply(
+                          decoration: TextDecoration.lineThrough,
+                        )
+                      : itemTextStyle,
+                ),
+                Text(
+                  " x" + quantity.toString(),
+                  style: hintTextStyle,
+                ),
+              ],
             ),
             Theme(
               data: ThemeData(unselectedWidgetColor: secondaryColorDark),
               child: Checkbox(
                 activeColor: secondaryColorLight,
-                onChanged: (bool value) {},
+                onChanged: (bool value) {
+                  setItemStatus(context, name, status);
+                },
                 value: status,
               ),
             ),

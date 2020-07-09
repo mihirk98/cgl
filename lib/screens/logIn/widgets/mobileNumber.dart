@@ -43,49 +43,50 @@ class _MobileNumberWidgetState extends State<MobileNumberWidget> {
     return Container(
       margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: TextField(
-                    controller: mobileNumberController,
-                    keyboardType: TextInputType.phone,
-                    style: textStyle,
-                    decoration: InputDecoration(
-                      hintText: mobileNumberHintString,
-                      hintStyle: hintTextStyle,
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: hintTextColor,
-                          width: 1,
-                        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: TextField(
+                  controller: mobileNumberController,
+                  keyboardType: TextInputType.phone,
+                  style: textStyle,
+                  decoration: InputDecoration(
+                    hintText: mobileNumberHintString,
+                    hintStyle: hintTextStyle,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: hintTextColor,
+                        width: 1,
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: textColor,
-                          width: 2,
-                        ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: textColor,
+                        width: 2,
                       ),
                     ),
                   ),
                 ),
               ),
-              RaisedButton(
+            ),
+            Container(
+              color: secondaryColor,
+              padding: EdgeInsets.all(8.0),
+              child: IconButton(
                 color: whiteColor,
-                child: Icon(
+                icon: Icon(
                   Icons.done,
                   color: textColor,
                 ),
                 onPressed: () =>
                     verifyMobileNumber(context, mobileNumberController.text),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

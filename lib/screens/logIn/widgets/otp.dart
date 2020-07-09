@@ -37,55 +37,56 @@ class _OTPWidgetState extends State<OTPWidget> {
     return Container(
       margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: TextField(
-                    enabled: otpWidgetState,
-                    controller: otpController,
-                    keyboardType: TextInputType.number,
-                    style: textStyle,
-                    decoration: InputDecoration(
-                      hintText: otpHintString,
-                      hintStyle: hintTextStyle,
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: hintTextColor,
-                          width: 1,
-                        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: TextField(
+                  enabled: otpWidgetState,
+                  controller: otpController,
+                  keyboardType: TextInputType.number,
+                  style: textStyle,
+                  decoration: InputDecoration(
+                    hintText: otpHintString,
+                    hintStyle: hintTextStyle,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: hintTextColor,
+                        width: 1,
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: textColor,
-                          width: 2,
-                        ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: textColor,
+                        width: 2,
                       ),
-                      disabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: whiteColor,
-                          width: 1,
-                        ),
+                    ),
+                    disabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: whiteColor,
+                        width: 1,
                       ),
                     ),
                   ),
                 ),
               ),
-              RaisedButton(
+            ),
+            Container(
+              color: secondaryColor,
+              padding: EdgeInsets.all(8.0),
+              child: IconButton(
                 color: whiteColor,
-                child: Icon(
+                icon: Icon(
                   Icons.arrow_forward,
                   color: textColor,
                 ),
                 onPressed: () => verifyOTP(context, otpController.text),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

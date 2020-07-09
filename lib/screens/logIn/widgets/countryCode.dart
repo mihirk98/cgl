@@ -15,50 +15,52 @@ class CountryCodeWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.fromLTRB(12, 12, 12, 8),
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 4, 0, 4),
+              child: Text(
                 selectCountryCodeString,
                 style: hintTextStyle,
               ),
-              StreamBuilder<String>(
-                  stream: controller.dialCodeStream,
-                  initialData: "",
-                  builder: (context, snapshot) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: snapshot.data == ""
-                                ? whiteColor
-                                : secondaryColor,
-                            width: 4,
-                          ),
+            ),
+            StreamBuilder<String>(
+                stream: controller.dialCodeStream,
+                initialData: "",
+                builder: (context, snapshot) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color:
+                              snapshot.data == "" ? whiteColor : secondaryColor,
+                          width: 4,
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          '${snapshot.data}',
-                          style: textStyle,
-                        ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        '${snapshot.data}',
+                        style: textStyle,
                       ),
-                    );
-                  }),
-              RaisedButton(
-                color: secondaryColor,
-                child: Icon(
+                    ),
+                  );
+                }),
+            Container(
+              color: secondaryColor,
+              padding: EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(
                   Icons.keyboard_arrow_down,
                   color: textColor,
                 ),
                 onPressed: () => countryCodeDialog(context),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
