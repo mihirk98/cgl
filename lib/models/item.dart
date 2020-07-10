@@ -53,3 +53,47 @@ Future<void> addItem(BuildContext context, String item) async {
     );
   }
 }
+
+Future<void> deleteItem(BuildContext context, String item) async {
+  User userProvider = UserProvider.of(context);
+  String family = userProvider.document;
+  Firestore.instance
+      .collection("lists")
+      .document(family)
+      .collection("items")
+      .document(item)
+      .delete();
+}
+
+Future<void> increaseQuantity(BuildContext context, String item) async {
+  User userProvider = UserProvider.of(context);
+  String family = userProvider.document;
+  Firestore.instance
+      .collection("lists")
+      .document(family)
+      .collection("items")
+      .document(item)
+      .updateData(
+    {
+      'quantity': FieldValue.increment(1),
+    },
+  );
+}
+
+Future<void> decreaseQuantity(
+    BuildContext context, String item, int quantity) async {
+  if (quantity != 1) {
+    User userProvider = UserProvider.of(context);
+    String family = userProvider.document;
+    Firestore.instance
+        .collection("lists")
+        .document(family)
+        .collection("items")
+        .document(item)
+        .updateData(
+      {
+        'quantity': quantity - 1,
+      },
+    );
+  }
+}

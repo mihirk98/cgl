@@ -22,6 +22,8 @@ String familtNotExistsString =
 String familyNameString = "Enter family name...";
 String noItemsString = "No items...";
 String addItemString = "Enter item here...";
+String itemMenu = "Item Menu";
+String itemDeletedString = "Item deleted...";
 String logInString = "Log In";
 String familyString = "Family";
 

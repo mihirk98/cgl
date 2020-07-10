@@ -50,18 +50,18 @@ class LogInController {
 verifyMobileNumber(BuildContext context, String number) {
   if (number.length == 10) {
     if (dialCode == "")
-      showSnackBar(context, selectCountryCodeSnackBarString);
+      showSnackBar(context, selectCountryCodeSnackBarString, 5);
     else {
       if (otpStatus == false) {
         mobileNumber = number;
         showProgressIndicatorDialog(context);
         sendOTP(context);
       } else {
-        showSnackBar(context, otpSentString);
+        showSnackBar(context, otpSentString, 2);
       }
     }
   } else
-    showSnackBar(context, mobileNumberLengthString);
+    showSnackBar(context, mobileNumberLengthString, 5);
 }
 
 sendOTP(BuildContext context) async {
@@ -76,19 +76,19 @@ sendOTP(BuildContext context) async {
       (AuthException authException) {
     hideProgressIndicatorDialog(context);
     showSnackBar(
-        context, otpVerificationErrorString + "${authException.message}");
+        context, otpVerificationErrorString + "${authException.message}", 5);
   };
 
   final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
     hideProgressIndicatorDialog(context);
     otpStatusStreamController.add(true);
     otpStatus = true;
-    showSnackBar(context, otpSentString);
+    showSnackBar(context, otpSentString, 2);
     verificationId = verId;
   };
 
   final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-    showSnackBar(context, enterOTPString);
+    showSnackBar(context, enterOTPString, 2);
     verificationId = verId;
   };
 
@@ -105,7 +105,7 @@ verifyOTP(BuildContext context, String otp) {
   if (otpStatus) {
     signInWithOTP(context, otp);
   } else {
-    showSnackBar(context, verifyNumberBeforeOTPString);
+    showSnackBar(context, verifyNumberBeforeOTPString, 5);
   }
 }
 
@@ -120,11 +120,11 @@ signInWithOTP(BuildContext context, String smsCode) async {
       hideProgressIndicatorDialog(context);
       familyStatus(context);
     } on PlatformException catch (e) {
-      showSnackBar(context, e.toString());
+      showSnackBar(context, e.toString(), 5);
     }
   } else {
     hideProgressIndicatorDialog(context);
-    showSnackBar(context, incorrectOTPString);
+    showSnackBar(context, incorrectOTPString, 2);
   }
 }
 

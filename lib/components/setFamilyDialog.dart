@@ -197,11 +197,11 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
       showProgressIndicatorDialog(context);
       bool familyStatus = await createFamily(createFamilyController.text);
       if (!familyStatus) {
-        showSnackBar(context, familyExistsString);
+        showSnackBar(context, familyExistsString, 5);
       }
       hideProgressIndicatorDialog(context);
     } else {
-      showSnackBar(context, familyNameString);
+      showSnackBar(context, familyNameString, 2);
     }
   }
 
@@ -264,11 +264,11 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
       showProgressIndicatorDialog(context);
       bool familyStatus = await joinFamily(joinFamilyController.text);
       if (!familyStatus) {
-        showSnackBar(context, familtNotExistsString);
+        showSnackBar(context, familtNotExistsString, 5);
       }
       hideProgressIndicatorDialog(context);
     } else {
-      showSnackBar(context, familyNameString);
+      showSnackBar(context, familyNameString, 2);
     }
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:cgl/constants/styles.dart';
 
-showSnackBar(BuildContext context, String text) {
+showSnackBar(BuildContext context, String text, int duration) {
   Scaffold.of(context).hideCurrentSnackBar();
   Scaffold.of(context).showSnackBar(
     SnackBar(
@@ -12,7 +12,7 @@ showSnackBar(BuildContext context, String text) {
         text,
         style: snackbarTextStyle,
       ),
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: duration),
     ),
   );
 }

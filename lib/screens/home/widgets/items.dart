@@ -71,10 +71,9 @@ class ItemsWidget extends StatelessWidget {
             itemCount: items.length,
             itemBuilder: (_, index) {
               return ItemWidget(
-                status: false,
-                index: index,
-                name: items[index].name,
-                quantity: items[index].quantity,
+                false,
+                items[index].name,
+                items[index].quantity,
               );
             },
             separatorBuilder: (BuildContext context, int index) {
@@ -87,27 +86,15 @@ class ItemsWidget extends StatelessWidget {
           ),
           checkedItems.length == 0
               ? Container()
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                      child: Text(
-                        "Checked",
-                        style: titleTextStyle,
-                      ),
+              : Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
+                    child: Text(
+                      "Checked",
+                      style: titleTextStyle,
                     ),
-                    Container(
-                      color: whiteColor,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.minimize,
-                          color: hintTextColor,
-                        ),
-                        onPressed: () => null,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -115,10 +102,9 @@ class ItemsWidget extends StatelessWidget {
             itemCount: checkedItems.length,
             itemBuilder: (_, index) {
               return ItemWidget(
-                status: true,
-                index: index,
-                name: checkedItems[index].name,
-                quantity: checkedItems[index].quantity,
+                true,
+                checkedItems[index].name,
+                checkedItems[index].quantity,
               );
             },
           ),
