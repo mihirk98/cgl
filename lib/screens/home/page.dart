@@ -2,17 +2,16 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
-import 'package:cgl/misc/progressIndicator.dart';
-import 'package:cgl/models/item.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
-import 'package:cgl/screens/home/components/item.dart';
+import 'package:cgl/screens/family/page.dart';
+import 'package:cgl/screens/home/controller.dart';
 import 'package:cgl/screens/home/widgets/addItem.dart';
 import 'package:cgl/screens/home/widgets/items.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+  final HomeController controller = HomeController();
   @override
   Widget build(BuildContext context) {
     User userProvider = UserProvider.of(context);
@@ -28,14 +27,76 @@ class HomePage extends StatelessWidget {
           ),
           elevation: 0,
           automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserProvider(
+                        user: User(
+                          userProvider.mobileNumber,
+                          userProvider.countryCode,
+                          userProvider.document,
+                          userProvider.token,
+                        ),
+                        child: FamilyPage()),
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.people,
+                color: textColor,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.notifications,
+                color: textColor,
+              ),
+            ),
+            FutureBuilder(
+              future: getCheckedVisibility(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Container();
+                  default:
+                    bool checkedVisibilityValue;
+                    if (snapshot.data) {
+                      checkedVisibilityValue = true;
+                    } else {
+                      checkedVisibilityValue = true;
+                    }
+                    return IconButton(
+                      onPressed: () {
+                        if (checkedVisibilityValue) {
+                          checkedVisibilityValue = false;
+                        } else {
+                          checkedVisibilityValue = true;
+                        }
+                        setCheckedVisibility(checkedVisibilityValue);
+                        controller.checkedVisibilitySink
+                            .add(checkedVisibilityValue);
+                      },
+                      icon: Icon(
+                        Icons.minimize,
+                        color: textColor,
+                      ),
+                    );
+                }
+              },
+            ),
+          ],
         ),
         body: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              ItemsWidget(family: family),
-              AddItemWidget(),
+              ItemsWidget(family: family, controller: controller),
+              AddItemWidget(controller: controller),
             ],
           ),
         ),

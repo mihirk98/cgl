@@ -28,6 +28,7 @@ Future<bool> createFamily(String familyName) async {
                 'status': 0,
                 'date': DateTime.now().millisecondsSinceEpoch,
                 'quantity': 1,
+                'unit': 'Unit/s'
               },
             ),
             batch.commit(),

@@ -14,6 +14,9 @@ String incorrectOTPString = "Incorrect OTP...";
 String familyHintString = "Enter family name here...";
 String createFamilyString = "Create family";
 String joinFamilyString = "Join Family";
+String checkedString = "Checked";
+String checkedItemsHiddenString = "Checked items hidden...";
+String noCheckedItems = "No checked items...";
 String orString = "Or";
 String familyExistsString =
     "Family already exists...\n\nKindly chose another name or request to join family instead.";
@@ -23,7 +26,6 @@ String familyNameString = "Enter family name...";
 String noItemsString = "No items...";
 String addItemString = "Enter item here...";
 String itemMenu = "Item Menu";
-String itemDeletedString = "Item deleted...";
 String logInString = "Log In";
 String familyString = "Family";
 
