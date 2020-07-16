@@ -22,6 +22,12 @@ TextStyle appBarTitleStyle = TextStyle(
   fontSize: 20,
 );
 
+TextStyle splashTextStyle = TextStyle(
+  color: whiteColor,
+  fontWeight: FontWeight.w900,
+  fontSize: 28,
+);
+
 TextStyle hintTextStyle = TextStyle(
   color: hintTextColor,
   fontWeight: FontWeight.w400,

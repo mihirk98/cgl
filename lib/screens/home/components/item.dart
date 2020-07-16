@@ -287,7 +287,7 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                         value: quantityValue,
                         min: 1,
                         max: 1000,
-                        divisions: 1000,
+                        divisions: 200,
                         onChanged: (value) {
                           setState(
                             () {

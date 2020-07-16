@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Flutter imports:
+import 'package:cgl/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -72,10 +73,13 @@ class MainPage extends StatelessWidget {
 
   Scaffold buildSplashScaffold() {
     return Scaffold(
-      backgroundColor: primaryColor,
-      body:
-          //ToDo Add Logo
-          Container(),
+      backgroundColor: secondaryColorLight,
+      body: Center(
+        child: Text(
+          welcomeString,
+          style: splashTextStyle,
+        ),
+      ),
     );
   }
 }

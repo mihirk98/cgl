@@ -1,4 +1,5 @@
 import 'package:cgl/constants/colors.dart';
+import 'package:cgl/constants/quantityShortcuts.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/constants/units.dart';
@@ -175,6 +176,7 @@ class _QuantityDialogState extends State<QuantityDialog> {
   String selectedUnit;
   double quantityValue;
   int quantityValueInt;
+  final quantityShortcutKey = new GlobalKey();
 
   @override
   void initState() {
@@ -182,6 +184,14 @@ class _QuantityDialogState extends State<QuantityDialog> {
     quantityValue = quantity.toDouble();
     quantityValueInt = quantity;
     super.initState();
+  }
+
+  quantityShortcutClick(int quantity) {
+    setState(() {
+      quantityValue = quantity.toDouble();
+      quantityValueInt = quantity;
+    });
+    Scrollable.ensureVisible(quantityShortcutKey.currentContext);
   }
 
   @override
@@ -219,25 +229,60 @@ class _QuantityDialogState extends State<QuantityDialog> {
                 ),
               ],
             ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.3,
-              padding: EdgeInsets.all(8),
-              margin: EdgeInsets.fromLTRB(4, 16, 4, 4),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                border: Border.all(
-                  color: primaryColor,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8),
-                ),
-              ),
-              child: Text(
-                'x' + '$quantityValueInt',
-                style: textStyle.apply(
-                  color: whiteColor,
-                ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    key: quantityShortcutKey,
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    padding: EdgeInsets.all(8),
+                    margin: EdgeInsets.fromLTRB(4, 16, 4, 4),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      border: Border.all(
+                        color: primaryColor,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'x' + '$quantityValueInt',
+                      maxLines: 2,
+                      style: textStyle.apply(
+                        color: whiteColor,
+                      ),
+                    ),
+                  ),
+                  for (int quantity in quantityShortcutList)
+                    GestureDetector(
+                      onTap: () => quantityShortcutClick(quantity),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        padding: EdgeInsets.all(8),
+                        margin: EdgeInsets.fromLTRB(4, 16, 4, 4),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          border: Border.all(
+                            color: primaryColor,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'x' + quantity.toString(),
+                          maxLines: 2,
+                          style: textStyle.apply(
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
             Container(
@@ -297,7 +342,7 @@ class _QuantityDialogState extends State<QuantityDialog> {
                   value: quantityValue,
                   min: 1,
                   max: 1000,
-                  divisions: 100,
+                  divisions: 200,
                   onChanged: (value) {
                     setState(
                       () {

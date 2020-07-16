@@ -1,12 +1,15 @@
 // Flutter imports:
+import 'package:cgl/misc/snackBar.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
 import 'package:cgl/main.dart';
+import 'package:cgl/constants/strings.dart';
 
 class User {
   final String mobileNumber;
@@ -36,38 +39,42 @@ Future<void> createUser(
     BuildContext context, String dialCode, String mobileNumber) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String token = await notificationToken(mobileNumber);
-  await Firestore.instance
-      .collection("users")
-      .document(dialCode + "-" + mobileNumber)
-      .get()
-      .then((doc) => {
-            if (doc.exists)
-              {
-                Firestore.instance
-                    .collection("users")
-                    .document(dialCode + "-" + mobileNumber)
-                    .updateData(
-                  {'token': token},
-                ),
-                prefs.setString('mobileNumber', mobileNumber),
-                prefs.setString('countryCode', dialCode),
-                prefs.setString('token', token),
-                if (doc.data.containsKey("family"))
-                  {
-                    prefs.setString('document', doc.data["family"]),
-                  },
-              }
-            else
-              {
-                Firestore.instance
-                    .collection("users")
-                    .document(dialCode + "-" + mobileNumber)
-                    .setData(
-                  {'token': token},
-                ),
-                prefs.setString('mobileNumber', mobileNumber),
-                prefs.setString('countryCode', dialCode),
-                prefs.setString('token', token),
-              }
-          });
+  try {
+    await Firestore.instance
+        .collection("users")
+        .document(dialCode + "-" + mobileNumber)
+        .get()
+        .then((doc) => {
+              if (doc.exists)
+                {
+                  Firestore.instance
+                      .collection("users")
+                      .document(dialCode + "-" + mobileNumber)
+                      .updateData(
+                    {'token': token},
+                  ),
+                  prefs.setString('mobileNumber', mobileNumber),
+                  prefs.setString('countryCode', dialCode),
+                  prefs.setString('token', token),
+                  if (doc.data.containsKey("family"))
+                    {
+                      prefs.setString('document', doc.data["family"]),
+                    },
+                }
+              else
+                {
+                  Firestore.instance
+                      .collection("users")
+                      .document(dialCode + "-" + mobileNumber)
+                      .setData(
+                    {'token': token},
+                  ),
+                  prefs.setString('mobileNumber', mobileNumber),
+                  prefs.setString('countryCode', dialCode),
+                  prefs.setString('token', token),
+                }
+            });
+  } on PlatformException catch (e) {
+    showSnackBar(context, errorText + e.toString(), 10);
+  }
 }

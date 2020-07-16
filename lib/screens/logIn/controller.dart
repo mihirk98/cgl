@@ -88,6 +88,7 @@ sendOTP(BuildContext context) async {
   };
 
   final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+    hideProgressIndicatorDialog(context);
     showSnackBar(context, enterOTPString, 2);
     verificationId = verId;
   };

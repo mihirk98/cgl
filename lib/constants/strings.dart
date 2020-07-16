@@ -25,8 +25,10 @@ String familtNotExistsString =
 String familyNameString = "Enter family name...";
 String noItemsString = "No items...";
 String addItemString = "Enter item here...";
-String itemMenu = "Item Menu";
+String errorText = "Error...";
+String loadingText = "Loading...";
 String logInString = "Log In";
 String familyString = "Family";
+String welcomeString = "Welcome";
 
 String fontString = "Roboto";
