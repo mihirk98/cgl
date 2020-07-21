@@ -49,7 +49,7 @@ class _MobileNumberWidgetState extends State<MobileNumberWidget> {
           children: <Widget>[
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                 child: TextField(
                   controller: mobileNumberController,
                   keyboardType: TextInputType.phone,
@@ -77,7 +77,6 @@ class _MobileNumberWidgetState extends State<MobileNumberWidget> {
               color: secondaryColor,
               padding: EdgeInsets.all(8.0),
               child: IconButton(
-                color: whiteColor,
                 icon: Icon(
                   Icons.done,
                   color: textColor,

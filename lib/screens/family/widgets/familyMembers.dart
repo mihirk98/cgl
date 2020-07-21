@@ -7,9 +7,10 @@ class FamilyMembersWidget extends StatelessWidget {
   const FamilyMembersWidget({
     Key key,
     @required this.family,
+    @required this.mobileNumber,
   }) : super(key: key);
 
-  final String family;
+  final String family, mobileNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +32,22 @@ class FamilyMembersWidget extends StatelessWidget {
               return Column(
                 children: <Widget>[
                   for (String number in familyMembersList)
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
-                          child: Text(
-                            number,
-                            style: itemTextStyle,
+                    mobileNumber == number
+                        ? Container()
+                        : Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                            child: Card(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 0, 16),
+                                child: Text(
+                                  number,
+                                  style: itemTextStyle,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                 ],
               );
           }

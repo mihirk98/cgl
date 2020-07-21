@@ -11,7 +11,7 @@ SizedBox showProgressIndicator() {
     child: Center(
       child: Text(
         loadingText,
-        style: textStyle,
+        style: appBarTitleStyle,
       ),
     ),
   );
@@ -22,12 +22,24 @@ void showProgressIndicatorDialog(BuildContext context) {
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return SizedBox.expand(
-        child: Container(
-          color: hintTextColor,
-          child: Text(
-            loadingText,
-            style: appBarTitleStyle,
+      return Material(
+        color: hintTextColor.withOpacity(0.2),
+        child: Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.2,
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: Card(
+              color: whiteColor,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    loadingText,
+                    style: appBarTitleStyle,
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       );

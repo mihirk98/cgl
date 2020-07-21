@@ -52,7 +52,7 @@ class _AddItemWidgetState extends State<AddItemWidget> {
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
               child: TextField(
                 controller: addItemController,
                 keyboardType: TextInputType.text,
@@ -178,6 +178,39 @@ class _QuantityDialogState extends State<QuantityDialog> {
   int quantityValueInt;
   final quantityShortcutKey = new GlobalKey();
 
+  bool addButtonPressed = false, minusButtonPressed;
+  bool loopActive = false;
+
+  void increaseQuantityWhilePressed() async {
+    if (loopActive) return;
+    loopActive = true;
+    while (addButtonPressed) {
+      setState(() {
+        if (quantityValue.toInt() <= 999) {
+          quantityValue = (quantityValue.toInt() + 1).toDouble();
+          quantityValueInt = quantityValue.toInt();
+        }
+      });
+      await Future.delayed(Duration(milliseconds: 200));
+    }
+    loopActive = false;
+  }
+
+  void decreaseQuantityWhilePressed() async {
+    if (loopActive) return;
+    loopActive = true;
+    while (minusButtonPressed) {
+      setState(() {
+        if (quantityValue.toInt() > 1) {
+          quantityValue = (quantityValue.toInt() - 1).toDouble();
+          quantityValueInt = quantityValue.toInt();
+        }
+      });
+      await Future.delayed(Duration(milliseconds: 200));
+    }
+    loopActive = false;
+  }
+
   @override
   void initState() {
     selectedUnit = unit;
@@ -290,34 +323,44 @@ class _QuantityDialogState extends State<QuantityDialog> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (quantityValue.toInt() > 1) {
-                          quantityValue =
-                              (quantityValue.toInt() - 1).toDouble();
-                          quantityValueInt = quantityValue.toInt();
-                        }
-                      });
+                  Listener(
+                    onPointerDown: (_) {
+                      minusButtonPressed = true;
+                      decreaseQuantityWhilePressed();
                     },
-                    icon: Icon(
-                      Icons.remove,
-                      color: textColor,
+                    onPointerUp: (_) {
+                      minusButtonPressed = false;
+                    },
+                    child: Card(
+                      color: secondaryColorLight,
+                      elevation: 4,
+                      child: Container(
+                        padding: EdgeInsets.all(32),
+                        child: Icon(
+                          Icons.remove,
+                          color: textColor,
+                        ),
+                      ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (quantityValue.toInt() <= 999) {
-                          quantityValue =
-                              (quantityValue.toInt() + 1).toDouble();
-                          quantityValueInt = quantityValue.toInt();
-                        }
-                      });
+                  Listener(
+                    onPointerDown: (_) {
+                      addButtonPressed = true;
+                      increaseQuantityWhilePressed();
                     },
-                    icon: Icon(
-                      Icons.add,
-                      color: textColor,
+                    onPointerUp: (_) {
+                      addButtonPressed = false;
+                    },
+                    child: Card(
+                      color: secondaryColorLight,
+                      elevation: 4,
+                      child: Container(
+                        padding: EdgeInsets.all(32),
+                        child: Icon(
+                          Icons.add,
+                          color: textColor,
+                        ),
+                      ),
                     ),
                   ),
                 ],

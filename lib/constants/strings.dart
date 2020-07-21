@@ -22,9 +22,13 @@ String familyExistsString =
     "Family already exists...\n\nKindly chose another name or request to join family instead.";
 String familtNotExistsString =
     "Family does not exist...\n\nConfirm family name or try creating family.";
+String familyNotFoundString = "Family does not exist...";
 String familyNameString = "Enter family name...";
 String noItemsString = "No items...";
 String addItemString = "Enter item here...";
+String cancelRequestString = "Cancel Request";
+String verifyOTPString = "Verify OTP";
+String otpVerificationSuccessString = "OTP verification successful...";
 String errorText = "Error...";
 String loadingText = "Loading...";
 String logInString = "Log In";

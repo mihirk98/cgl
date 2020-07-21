@@ -1,14 +1,16 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/styles.dart';
+import 'package:cgl/screens/family/controller.dart';
 import 'package:flutter/material.dart';
 
 class FamilyWidget extends StatelessWidget {
   const FamilyWidget({
     Key key,
     @required this.family,
+    @required this.mobileNumber,
   }) : super(key: key);
 
-  final String family;
+  final String family, mobileNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,8 @@ class FamilyWidget extends StatelessWidget {
                   Icons.exit_to_app,
                   color: redColor,
                 ),
-                onPressed: () {},
+                onPressed: () async =>
+                    exitFamilyFunc(family, mobileNumber, context),
               ),
             )
           ],

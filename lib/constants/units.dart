@@ -4,7 +4,7 @@ List<String> unitsList = [
   'pound/s',
   'gram/s',
   'ounce/s',
-  'dozen',
+  'dozen/s',
   'litre/s',
   'milliliter/s'
 ];

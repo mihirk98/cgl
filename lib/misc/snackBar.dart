@@ -16,3 +16,16 @@ showSnackBar(BuildContext context, String text, int duration) {
     ),
   );
 }
+
+showSnackBarScaffold(var scaffoldKey, String text, int duration) {
+  scaffoldKey.currentState.hideCurrentSnackBar();
+  scaffoldKey.currentState.showSnackBar(
+    SnackBar(
+      content: Text(
+        text,
+        style: snackbarTextStyle,
+      ),
+      duration: Duration(seconds: duration),
+    ),
+  );
+}

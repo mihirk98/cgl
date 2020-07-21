@@ -66,7 +66,8 @@ Future<void> deleteItem(String family, String item) async {
       .delete();
 }
 
-Future<void> editQuantity(String family, String item, int quantity) async {
+Future<void> editQuantity(
+    String family, String item, int quantity, String unit) async {
   Firestore.instance
       .collection("lists")
       .document(family)
@@ -75,6 +76,7 @@ Future<void> editQuantity(String family, String item, int quantity) async {
       .updateData(
     {
       'quantity': quantity,
+      'unit': unit,
     },
   );
 }
