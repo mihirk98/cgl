@@ -15,9 +15,15 @@ String familyHintString = "Enter family name here...";
 String createFamilyString = "Create family";
 String joinFamilyString = "Join Family";
 String checkedString = "Checked";
+String quantityString = "Quantity";
+String exitFamilyString = "Exit Family";
+String exitFamilyConfirmationString =
+    "Are you sure you want to leave this family?";
 String checkedItemsHiddenString = "Checked items hidden...";
 String noCheckedItems = "No checked items...";
 String orString = "Or";
+String noString = "No";
+String yesString = "Yes";
 String familyExistsString =
     "Family already exists...\n\nKindly chose another name or request to join family instead.";
 String familtNotExistsString =
@@ -29,8 +35,12 @@ String addItemString = "Enter item here...";
 String cancelRequestString = "Cancel Request";
 String verifyOTPString = "Verify OTP";
 String otpVerificationSuccessString = "OTP verification successful...";
-String errorText = "Error...";
-String loadingText = "Loading...";
+String listBackUpString =
+    "Backup list items before leaving? This will allow you to quickly add backed up list items to any new family you join.";
+String listBackingUpString = "Backing up list...";
+String listBackedUpString = "List backed up.";
+String errorString = "Error...";
+String loadingString = "Loading...";
 String logInString = "Log In";
 String familyString = "Family";
 String welcomeString = "Welcome";

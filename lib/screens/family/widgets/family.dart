@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 class FamilyWidget extends StatelessWidget {
   const FamilyWidget({
     Key key,
+    @required this.controller,
     @required this.family,
     @required this.mobileNumber,
   }) : super(key: key);
 
   final String family, mobileNumber;
+  final controller;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,8 @@ class FamilyWidget extends StatelessWidget {
                   Icons.exit_to_app,
                   color: redColor,
                 ),
-                onPressed: () async =>
-                    exitFamilyFunc(family, mobileNumber, context),
+                onPressed: () =>
+                    exitFamilyDialog(controller, family, mobileNumber, context),
               ),
             )
           ],

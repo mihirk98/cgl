@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cgl/models/item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController {
@@ -15,7 +16,7 @@ class HomeController {
       checkedVisibilityUpdateStreamController.stream;
 
   //Quantity
-  final quantityStreamController = StreamController<int>();
+  final quantityStreamController = StreamController<int>.broadcast();
   Stream<int> get quantityStream => quantityStreamController.stream;
 
   final quantityUpdateStreamController = StreamController<int>();
@@ -30,6 +31,15 @@ class HomeController {
   Sink<String> get unitSink => unitUpdateStreamController.sink;
   Stream<String> get unitUpdateStream => unitUpdateStreamController.stream;
 
+  //Items
+  final allItemsStreamController = StreamController<List<Item>>.broadcast();
+  Stream<List<Item>> get allItemsStream => allItemsStreamController.stream;
+
+  final allItemsUpdateStreamController = StreamController<List<Item>>();
+  Sink<List<Item>> get allItemsSink => allItemsUpdateStreamController.sink;
+  Stream<List<Item>> get allItemsUpdateStream =>
+      allItemsUpdateStreamController.stream;
+
   HomeController() {
     checkedVisibilityUpdateStream.listen((updatedVisibility) {
       checkedVisibilityStreamController.add(updatedVisibility);
@@ -40,6 +50,9 @@ class HomeController {
     unitUpdateStream.listen((updatedUnit) {
       unitStreamController.add(updatedUnit);
     });
+    allItemsStream.listen((allItems) {
+      allItemsStreamController.add(allItems);
+    });
   }
 
   void dispose() {
@@ -49,6 +62,8 @@ class HomeController {
     quantityUpdateStreamController.close();
     unitStreamController.close();
     unitUpdateStreamController.close();
+    allItemsStreamController.close();
+    allItemsUpdateStreamController.close();
   }
 }
 

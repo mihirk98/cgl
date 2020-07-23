@@ -75,6 +75,6 @@ Future<void> createUser(
                 }
             });
   } on PlatformException catch (e) {
-    showSnackBar(context, errorText + e.toString(), 10);
+    showSnackBar(context, errorString + e.toString(), 10);
   }
 }

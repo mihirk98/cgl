@@ -63,7 +63,11 @@ Future<void> deleteItem(String family, String item) async {
       .document(family)
       .collection("items")
       .document(item)
-      .delete();
+      .updateData(
+    {
+      'status': 2,
+    },
+  );
 }
 
 Future<void> editQuantity(
@@ -112,4 +116,37 @@ Future<void> replaceItem(String family, String oldItem, String newItem,
     },
   );
   batch.commit();
+}
+
+Future<int> backUpItems(
+    String family, String user, BuildContext context) async {
+  var db = Firestore.instance;
+  var batch = db.batch();
+  await Firestore.instance
+      .collection("lists")
+      .document(family)
+      .collection("items")
+      .getDocuments()
+      .then(
+        (snapshot) => {
+          for (var itemData in snapshot.documents)
+            {
+              batch.setData(
+                db
+                    .collection("users")
+                    .document(user)
+                    .collection("items")
+                    .document(itemData.documentID),
+                {
+                  'status': itemData["status"],
+                  'date': itemData["date"],
+                  'quantity': itemData["quantity"],
+                  'unit': itemData["unit"],
+                },
+              ),
+            },
+          batch.commit(),
+        },
+      );
+  return 1;
 }

@@ -10,7 +10,7 @@ SizedBox showProgressIndicator() {
   return SizedBox.expand(
     child: Center(
       child: Text(
-        loadingText,
+        loadingString,
         style: appBarTitleStyle,
       ),
     ),
@@ -34,7 +34,7 @@ void showProgressIndicatorDialog(BuildContext context) {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    loadingText,
+                    loadingString,
                     style: appBarTitleStyle,
                   ),
                 ),

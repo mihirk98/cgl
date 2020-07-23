@@ -15,44 +15,56 @@ class FamilyMembersWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> familyMembersList = [];
-    return Expanded(
-      child: StreamBuilder(
-        stream:
-            Firestore.instance.collection("lists").document(family).snapshots(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return showProgressIndicator();
-            default:
-              familyMembersList = (snapshot.data["family"])
-                  .toString()
-                  .replaceAll("[", "")
-                  .replaceAll("]", "")
-                  .split(", ");
-              return Column(
-                children: <Widget>[
-                  for (String number in familyMembersList)
-                    mobileNumber == number
-                        ? Container()
-                        : Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                            child: Card(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 16, 0, 16),
-                                child: Text(
-                                  number,
-                                  style: itemTextStyle,
+    if (family != null) {
+      return Expanded(
+        child: StreamBuilder(
+          stream: Firestore.instance
+              .collection("lists")
+              .document(family)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return showProgressIndicator();
+                default:
+                  familyMembersList = (snapshot.data["family"])
+                      .toString()
+                      .replaceAll("[", "")
+                      .replaceAll("]", "")
+                      .split(", ");
+                  return Column(
+                    children: <Widget>[
+                      for (String number in familyMembersList)
+                        mobileNumber == number
+                            ? Container()
+                            : Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16, 16, 0, 16),
+                                    child: Text(
+                                      number,
+                                      style: itemTextStyle,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                ],
-              );
-          }
-        },
-      ),
-    );
+                    ],
+                  );
+              }
+            } else {
+              return Container();
+            }
+          },
+        ),
+      );
+    } else {
+      return Expanded(
+        child: Container(),
+      );
+    }
   }
 }

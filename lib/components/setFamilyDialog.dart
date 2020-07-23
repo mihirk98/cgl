@@ -422,30 +422,28 @@ class _FamilyRequestDialogState extends State<FamilyRequestDialog> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: Row(
-                    children: <Widget>[
-                      RaisedButton(
-                        color: redColor,
-                        child: Text(
-                          cancelRequestString,
-                          style: textStyle,
-                        ),
-                        onPressed: () => cancelRequest(request),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    RaisedButton(
+                      color: redColor,
+                      child: Text(
+                        cancelRequestString,
+                        style: textStyle,
                       ),
-                      RaisedButton(
-                        color: primaryColorDark,
-                        child: Text(
-                          verifyOTPString,
-                          style: textStyle,
-                        ),
-                        onPressed: () => verifyFamilyNameFunc(
-                          request,
-                        ),
+                      onPressed: () => cancelRequest(request),
+                    ),
+                    RaisedButton(
+                      color: primaryColorDark,
+                      child: Text(
+                        verifyOTPString,
+                        style: textStyle,
                       ),
-                    ],
-                  ),
+                      onPressed: () => verifyFamilyNameFunc(
+                        request,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

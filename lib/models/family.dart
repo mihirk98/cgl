@@ -204,32 +204,42 @@ Future<int> exitFamily(String family, String user) async {
       .get()
       .then((doc) {
     if (doc.exists) {
+      batch.updateData(
+        db.collection("lists").document(family),
+        {
+          'family': FieldValue.arrayRemove([user])
+        },
+      );
+      batch.updateData(
+        db.collection("users").document(user),
+        {
+          'family': FieldValue.delete(),
+        },
+      );
       familyMembersList = doc["family"]
           .toString()
           .replaceAll("[", "")
           .replaceAll("]", "")
           .split(", ");
       if (familyMembersList.length == 1) {
+        batch.delete(db.collection("lists").document(family));
+        batch.commit();
         returnValue = 2;
       } else {
-        batch.updateData(
-          db.collection("lists").document(family),
-          {
-            'family': FieldValue.arrayRemove([user])
-          },
-        );
-        batch.updateData(
-          db.collection("users").document(user),
-          {
-            'family': FieldValue.delete(),
-          },
-        );
         batch.commit();
-        prefs.setString('document', null);
-        returnValue = 0;
+        returnValue = 1;
       }
+      prefs.setString('document', null);
     } else {
-      returnValue = 1;
+      batch.updateData(
+        db.collection("users").document(user),
+        {
+          'family': FieldValue.delete(),
+        },
+      );
+      batch.commit();
+      prefs.setString('document', null);
+      returnValue = 0;
     }
   });
   return returnValue;

@@ -31,6 +31,7 @@ class ItemsWidget extends StatelessWidget {
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           List<Item> items = [];
           List<Item> checkedItems = [];
+          List<Item> allItems = [];
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return showProgressIndicator();
@@ -45,10 +46,13 @@ class ItemsWidget extends StatelessWidget {
                 );
                 if (item.status == 0) {
                   items.add(item);
-                } else {
+                } else if (item.status == 1) {
                   checkedItems.add(item);
                 }
+                allItems.add(item);
               }
+              //Adding All Items to controller
+              controller.allItemsSink.add(allItems);
               if (items.length == 0 && checkedItems.length == 0) {
                 return Center(
                   child: Text(
