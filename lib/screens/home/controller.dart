@@ -50,7 +50,7 @@ class HomeController {
     unitUpdateStream.listen((updatedUnit) {
       unitStreamController.add(updatedUnit);
     });
-    allItemsStream.listen((allItems) {
+    allItemsUpdateStream.listen((allItems) {
       allItemsStreamController.add(allItems);
     });
   }

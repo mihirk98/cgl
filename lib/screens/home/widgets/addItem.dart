@@ -21,45 +21,100 @@ class _AddItemWidgetState extends State<AddItemWidget> {
   final controller;
   _AddItemWidgetState(this.controller);
   final addItemController = TextEditingController();
-  FocusNode addItemFocus = new FocusNode();
+  final addItemFocusNode = new FocusNode();
+  String addItemText = "";
   int quantity = 1;
   String unit = "unit/s";
   List<Item> allItems = [];
+  OverlayState overlayState;
+  OverlayEntry overlayEntry;
+  bool overlayStatus = false;
+  final LayerLink textFieldLayerLink = LayerLink();
+  GlobalKey textFieldKey = GlobalKey();
 
-  OverlayEntry allItemsOverlayEntry;
-  final LayerLink allItemsLayerLink = LayerLink();
+  bool containsCaseInsensitive(String name) {
+    if (name.contains(addItemText))
+      return true;
+    else if (name.toLowerCase().contains(addItemText))
+      return true;
+    else if (name.contains(addItemText.toLowerCase()))
+      return true;
+    else if (name.toLowerCase().contains(addItemText.toLowerCase()))
+      return true;
+    return false;
+  }
 
-  OverlayEntry createAllItemsOverlayEntry() {
-    RenderBox renderBox = context.findRenderObject();
+  String capitalItem(String item) {
+    var itemBuffer = new StringBuffer();
+    for (int i = 0; i < item.length; i++) {
+      if (i == 0) {
+        itemBuffer.write(item[i].toUpperCase());
+      } else if (item[i - 1] == " ") {
+        itemBuffer.write(item[i].toUpperCase());
+      } else {
+        itemBuffer.write(item[i]);
+      }
+    }
+    return itemBuffer.toString();
+  }
+
+  createOverlay(BuildContext context) {
+    RenderBox renderBox = textFieldKey.currentContext.findRenderObject();
     var size = renderBox.size;
-
-    return OverlayEntry(
-        builder: (context) => Positioned(
-              width: size.width,
-              child: CompositedTransformFollower(
-                link: this.allItemsLayerLink,
-                showWhenUnlinked: false,
-                offset: Offset(0.0, size.height + 5.0),
-                child: Material(
-                  elevation: 4.0,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: allItems.length,
-                    itemBuilder: (_, index) {
-                      if (allItems.length == 0)
-                        return Text("Hi");
-                      else
-                        return Text(allItems[index].name);
-                    },
-                  ),
-                ),
-              ),
-            ));
+    double height = MediaQuery.of(context).size.height * 0.2;
+    overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        width: size.width,
+        height: height,
+        child: CompositedTransformFollower(
+          link: textFieldLayerLink,
+          offset: Offset(0.0, -(height + 6)),
+          child: Material(
+            color: secondaryColor,
+            child: ListView.separated(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: allItems.length,
+              itemBuilder: (_, index) {
+                return containsCaseInsensitive(allItems[index].name)
+                    ? ListTile(
+                        title: Text(
+                          allItems[index].name,
+                          style: itemTextStyle.apply(
+                            color: whiteColor,
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            addItemController.text = allItems[index].name;
+                          });
+                          overlayStatus = false;
+                          overlayEntry.remove();
+                        },
+                      )
+                    : Container();
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return containsCaseInsensitive(allItems[index].name)
+                    ? Container(
+                        height: 0.5,
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        color: hintTextColor,
+                      )
+                    : Container();
+              },
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   void initState() {
-    addItemFocus.addListener(addItemFocusListener);
+    addItemController.addListener(addItemTextListener);
+    addItemFocusNode.addListener(addItemFocusListener);
     controller.allItemsStream.listen((updatedAllItems) {
       setState(() {
         allItems = updatedAllItems;
@@ -70,22 +125,45 @@ class _AddItemWidgetState extends State<AddItemWidget> {
         unit = updatedUnit;
       });
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) => createOverlay(context));
     super.initState();
   }
 
   void addItemFocusListener() {
-    if (addItemFocus.hasFocus) {
-      this.allItemsOverlayEntry = this.createAllItemsOverlayEntry();
-      Overlay.of(context).insert(this.allItemsOverlayEntry);
-    } else {
-      this.allItemsOverlayEntry.remove();
+    if (allItems.length != 0) {
+      if (addItemFocusNode.hasFocus) {
+        overlayStatus = true;
+        overlayState.insert(overlayEntry);
+      } else if (overlayStatus) {
+        overlayStatus = false;
+        overlayEntry.remove();
+      }
+    }
+  }
+
+  void addItemTextListener() {
+    if (allItems.length != 0) {
+      if (addItemText != addItemController.text) {
+        addItemText = addItemController.text;
+        if (overlayStatus) {
+          overlayStatus = false;
+          overlayEntry.remove();
+        }
+        for (Item item in allItems) {
+          if (containsCaseInsensitive(item.name)) {
+            overlayStatus = true;
+            overlayState.insert(overlayEntry);
+            break;
+          }
+        }
+      }
     }
   }
 
   @override
   void dispose() {
     addItemController.dispose();
-    addItemFocus.dispose();
+    addItemFocusNode.dispose();
     super.dispose();
   }
 
@@ -101,25 +179,29 @@ class _AddItemWidgetState extends State<AddItemWidget> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-              child: TextField(
-                controller: addItemController,
-                focusNode: addItemFocus,
-                keyboardType: TextInputType.text,
-                style: textStyle,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8),
-                  hintText: addItemString,
-                  hintStyle: hintTextStyle,
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: hintTextColor,
-                      width: 1,
+              child: CompositedTransformTarget(
+                link: textFieldLayerLink,
+                child: TextField(
+                  key: textFieldKey,
+                  controller: addItemController,
+                  focusNode: addItemFocusNode,
+                  keyboardType: TextInputType.text,
+                  style: textStyle,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(8),
+                    hintText: addItemString,
+                    hintStyle: hintTextStyle,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: hintTextColor,
+                        width: 1,
+                      ),
                     ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: textColor,
-                      width: 2,
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: textColor,
+                        width: 2,
+                      ),
                     ),
                   ),
                 ),
@@ -173,10 +255,12 @@ class _AddItemWidgetState extends State<AddItemWidget> {
                 onPressed: () => {
                   setState(
                     () {
-                      addItem(context, addItemController.text, quantity, unit);
+                      addItem(context, capitalItem(addItemController.text),
+                          quantity, unit);
                       addItemController.text = "";
                     },
                   ),
+                  FocusScope.of(context).unfocus(),
                   controller.quantitySink.add(1),
                   controller.unitSink.add("unit/s"),
                 },

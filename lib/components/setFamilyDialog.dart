@@ -197,7 +197,8 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
     if (createFamilyController.text.length != 0) {
       joinFamilyController.text = "";
       showProgressIndicatorDialog(context);
-      bool familyStatus = await createFamily(createFamilyController.text);
+      bool familyStatus =
+          await createFamily(createFamilyController.text.toLowerCase());
       if (!familyStatus) {
         showSnackBar(context, familyExistsString, 5);
       }
@@ -264,7 +265,8 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
     if (joinFamilyController.text.length != 0) {
       createFamilyController.text = "";
       showProgressIndicatorDialog(context);
-      bool familyStatus = await joinFamily(joinFamilyController.text);
+      bool familyStatus =
+          await joinFamily(joinFamilyController.text.toLowerCase());
       if (!familyStatus) {
         showSnackBar(context, familtNotExistsString, 5);
       }

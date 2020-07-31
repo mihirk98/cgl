@@ -63,11 +63,7 @@ Future<void> deleteItem(String family, String item) async {
       .document(family)
       .collection("items")
       .document(item)
-      .updateData(
-    {
-      'status': 2,
-    },
-  );
+      .delete();
 }
 
 Future<void> editQuantity(
