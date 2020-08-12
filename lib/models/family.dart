@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> createFamily(String familyName) async {
@@ -46,6 +47,8 @@ Future<bool> createFamily(String familyName) async {
 }
 
 Future<bool> joinFamily(String familyName) async {
+  final HttpsCallable httpsCallable = new CloudFunctions(region: "asia-east2")
+      .getHttpsCallable(functionName: 'joinFamilyRequest');
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String countryCode = prefs.getString("countryCode");
   String mobileNumber = prefs.getString("mobileNumber");
@@ -80,7 +83,12 @@ Future<bool> joinFamily(String familyName) async {
                 'request': familyName,
               },
             ),
-            batch.commit(),
+            batch.commit().then((_) => {
+                  httpsCallable.call(<String, dynamic>{
+                    'requestee': user,
+                    'family': familyName,
+                  }),
+                }),
             docStatus = true,
           }
         else

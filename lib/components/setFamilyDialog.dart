@@ -340,115 +340,139 @@ class _FamilyRequestDialogState extends State<FamilyRequestDialog> {
     return WillPopScope(
       onWillPop: () => null,
       child: AlertDialog(
+        contentPadding: EdgeInsets.all(0),
         backgroundColor: secondaryColor,
-        contentPadding: EdgeInsets.all(8),
         content: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                  child: Text(
-                    "Enter OTP",
-                    style: appBarTitleStyle,
-                  ),
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(16),
+                color: secondaryColorDark,
+                child: Text(
+                  enterCodeTitleString,
+                  style: appBarTitleStyle,
                 ),
-                Expanded(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        children: <Widget>[
-                          RichText(
-                            text: TextSpan(
-                              text: "You have requested to join the ",
-                              style: textStyle,
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: request,
-                                  style: appBarTitleStyle,
-                                ),
-                                TextSpan(
-                                  text: " family.\n\n" +
-                                      "A notification with the OTP has been sent to your family members.\n" +
-                                      "If they do not see the notification, the OTP can be obtained from the family section of the " +
-                                      appTitleString +
-                                      " app.\n\n"
-                                          "Contact your family members for the OTP and enter it below,\n",
-                                  style: textStyle,
-                                )
-                              ],
-                            ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    alignment: Alignment.center,
+                    child: RichText(
+                      text: TextSpan(
+                        text: familyJoinRequestString1 + " ",
+                        style: textStyle,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: request + " ",
+                            style: appBarTitleStyle,
                           ),
+                          TextSpan(
+                              text: familyJoinRequestString2 + " \n\n",
+                              style: textStyle),
+                          TextSpan(
+                              text: familyJoinRequestString3 + "\n\n",
+                              style: appBarTitleStyle),
+                          TextSpan(
+                            text: familyJoinRequestString4 +
+                                " " +
+                                appTitleString +
+                                " " +
+                                familyJoinRequestString5 +
+                                " \n\n",
+                            style: textStyle,
+                          )
                         ],
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                  child: TextField(
-                    controller: pinTextController,
-                    keyboardType: TextInputType.number,
-                    style: itemTextStyle,
-                    decoration: InputDecoration(
-                      hintText: otpHintString,
-                      hintStyle: hintTextStyle,
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: hintTextColor,
-                          width: 1,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: textColor,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: otpStatusVisibility,
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                    child: Text(
-                      otpStatusText,
-                      style: appBarTitleStyle.apply(color: whiteColor),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+              ),
+              Container(
+                color: secondaryColorLight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    RaisedButton(
-                      color: redColor,
-                      child: Text(
-                        cancelRequestString,
-                        style: textStyle,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                      child: TextField(
+                        controller: pinTextController,
+                        keyboardType: TextInputType.number,
+                        style: itemTextStyle,
+                        decoration: InputDecoration(
+                          hintText: codeHintString,
+                          hintStyle: hintTextStyle,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: hintTextColor,
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: textColor,
+                              width: 2,
+                            ),
+                          ),
+                        ),
                       ),
-                      onPressed: () => cancelRequest(request),
                     ),
-                    RaisedButton(
-                      color: primaryColorDark,
-                      child: Text(
-                        verifyOTPString,
-                        style: textStyle,
+                    Visibility(
+                      visible: otpStatusVisibility,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                        child: Text(
+                          otpStatusText,
+                          style: itemTextStyle.apply(color: redColor),
+                        ),
                       ),
-                      onPressed: () => verifyFamilyNameFunc(
-                        request,
-                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                          child: FlatButton(
+                            color: redColor,
+                            padding: EdgeInsets.all(16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                            ),
+                            child: Text(
+                              cancelRequestString,
+                              maxLines: 5,
+                              style: textStyle,
+                            ),
+                            onPressed: () => cancelRequest(request),
+                          ),
+                        ),
+                        Expanded(
+                          child: FlatButton(
+                            color: primaryColorDark,
+                            padding: EdgeInsets.all(16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                            ),
+                            child: Text(
+                              verifyOTPString,
+                              maxLines: 5,
+                              style: textStyle,
+                            ),
+                            onPressed: () => verifyFamilyNameFunc(
+                              request,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

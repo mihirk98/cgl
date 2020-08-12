@@ -2,10 +2,13 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
+import 'package:cgl/misc/progressIndicator.dart';
+import 'package:cgl/models/item.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
 import 'package:cgl/screens/family/page.dart';
 import 'package:cgl/screens/home/controller.dart';
+import 'package:cgl/screens/home/dialogs/familyNotifyDialog.dart';
 import 'package:cgl/screens/home/widgets/addItem.dart';
 import 'package:cgl/screens/home/widgets/items.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +33,41 @@ class HomePage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               onPressed: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return FamilyNotifyDialog(
+                      mobileNumber: userProvider.countryCode +
+                          "-" +
+                          userProvider.mobileNumber,
+                      family: userProvider.document,
+                    );
+                  },
+                );
+              },
+              icon: Icon(
+                Icons.notifications,
+                color: textColor,
+              ),
+            ),
+            IconButton(
+              onPressed: () async {
+                showProgressIndicatorDialog(context);
+                getBackedUpItems(
+                        userProvider.document,
+                        userProvider.countryCode +
+                            "-" +
+                            userProvider.mobileNumber)
+                    .then((_) => hideProgressIndicatorDialog(context));
+              },
+              icon: Icon(
+                Icons.file_download,
+                color: textColor,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -46,13 +84,6 @@ class HomePage extends StatelessWidget {
               },
               icon: Icon(
                 Icons.people,
-                color: textColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications,
                 color: textColor,
               ),
             ),

@@ -1,6 +1,3 @@
-// Dart imports:
-import 'dart:io';
-
 // Flutter imports:
 import 'package:cgl/constants/styles.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +16,33 @@ import 'models/user.dart';
 
 void main() => runApp(MainPage());
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  handleNotifications() {
+    final FirebaseMessaging fcm = FirebaseMessaging();
+    fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        //ToDo
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        //Todo
+      },
+      onResume: (Map<String, dynamic> message) async {
+        // ToDo
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    handleNotifications();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -59,7 +82,6 @@ class MainPage extends StatelessWidget {
           } else if (snapshot.data.document == null) {
             return SetFamilyDialog();
           }
-          //ToDo Add Home Page
           return UserProvider(
             user: snapshot.data,
             child: HomePage(),
@@ -82,14 +104,4 @@ class MainPage extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<String> notificationToken(String mobileNumber) async {
-  final FirebaseMessaging fcm = FirebaseMessaging();
-  if (Platform.isIOS) {
-    //ToDo IOS token upload
-  } else {
-    return await fcm.getToken();
-  }
-  return null;
 }

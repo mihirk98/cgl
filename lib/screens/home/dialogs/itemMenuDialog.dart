@@ -84,86 +84,186 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Container(
+    return Dialog(
+      child: Container(
         height: MediaQuery.of(context).size.height * 0.7,
         width: MediaQuery.of(context).size.width * 0.7,
-        child: Column(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                icon: Icon(
-                  Icons.close,
-                  color: textColor,
+        child: Material(
+          color: secondaryColor,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+                color: secondaryColorDark,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      editItemString,
+                      style: appBarTitleStyle,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: textColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
               ),
-            ),
-            Expanded(
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Wrap(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.fromLTRB(8, 16, 8, 24),
-                        padding: EdgeInsets.all(8),
-                        child: TextField(
-                          controller: nameController,
-                          minLines: 1,
-                          maxLines: 5,
-                          keyboardType: TextInputType.text,
-                          style: textStyle,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(20),
-                            hintText: addItemString,
-                            hintStyle: hintTextStyle,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: hintTextColor,
-                                width: 1,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: textColor,
-                                width: 2,
-                              ),
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          color: hintTextColor.withOpacity(0.8),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          child: Material(
+                            color: transparentColor,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  color: transparentColor,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    margin: EdgeInsets.all(8),
+                                    child: TextField(
+                                      autofocus: true,
+                                      controller: nameController,
+                                      maxLines: 5,
+                                      keyboardType: TextInputType.text,
+                                      style: textStyle,
+                                      decoration: InputDecoration(
+                                        fillColor: secondaryColorLight,
+                                        filled: true,
+                                        contentPadding: EdgeInsets.all(20),
+                                        hintText: addItemString,
+                                        hintStyle: hintTextStyle,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          borderSide: BorderSide(
+                                            color: secondaryColorLight,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          borderSide: BorderSide(
+                                            color: secondaryColorLight,
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    "Tap anywhere outside the box\nwhen done editing",
+                                    style: appBarTitleStyle.apply(
+                                      color: whiteColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ),
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(16),
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: secondaryColorLight,
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(width: 1, color: secondaryColorLight),
+                  ),
+                  child: Text(
+                    nameController.text,
+                    style: textStyle,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    children: <Widget>[
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                      width: 0.25, color: hintTextColor),
+                                  top: BorderSide(
+                                      width: 0.25, color: hintTextColor),
+                                ),
+                              ),
+                              child: FlatButton(
+                                padding: EdgeInsets.all(16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                                color: primaryColor,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Center(
+                                        child: Container(
+                                          color: secondaryColor,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.5,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.3,
-                                      child: ListView.builder(
-                                        padding: const EdgeInsets.all(8),
-                                        itemCount: quantityShortcutList.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Card(
-                                            color: primaryColorLight,
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              margin: const EdgeInsets.all(8),
-                                              child: Center(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          child: ListView.builder(
+                                            itemCount:
+                                                quantityShortcutList.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Container(
+                                                margin: index + 1 ==
+                                                        quantityShortcutList
+                                                            .length
+                                                    ? EdgeInsets.all(0)
+                                                    : EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 1),
                                                 child: FlatButton(
+                                                  color: primaryColorLight,
+                                                  padding: EdgeInsets.all(16),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0.0),
+                                                  ),
                                                   onPressed: () {
                                                     setState(() {
                                                       quantityValue =
@@ -181,24 +281,14 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                                                     style: itemTextStyle,
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                            child: Card(
-                              color: primaryColor,
-                              elevation: 4,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                padding: EdgeInsets.all(8),
-                                margin: EdgeInsets.all(4),
-                                alignment: Alignment.center,
                                 child: Text(
                                   'x' + '$quantityValueInt',
                                   maxLines: 2,
@@ -209,31 +299,55 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  left:
+                                      BorderSide(width: 0.25, color: textColor),
+                                  top: BorderSide(
+                                      width: 0.25, color: hintTextColor),
+                                ),
+                              ),
+                              child: FlatButton(
+                                padding: EdgeInsets.all(16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                                color: primaryColor,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Center(
+                                        child: Container(
+                                          color: secondaryColor,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.5,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.3,
-                                      child: ListView.builder(
-                                        padding: const EdgeInsets.all(8),
-                                        itemCount: unitsList.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Card(
-                                            color: primaryColorLight,
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              margin: const EdgeInsets.all(8),
-                                              child: Center(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
+                                          child: ListView.builder(
+                                            itemCount: unitsList.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Container(
+                                                margin: index + 1 ==
+                                                        unitsList.length
+                                                    ? EdgeInsets.all(0)
+                                                    : EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 1),
                                                 child: FlatButton(
+                                                  color: primaryColorLight,
+                                                  padding: EdgeInsets.all(16),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0.0),
+                                                  ),
                                                   onPressed: () {
                                                     setState(() {
                                                       selectedUnit =
@@ -247,24 +361,14 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                                                     style: itemTextStyle,
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                            child: Card(
-                              color: primaryColor,
-                              elevation: 4,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                padding: EdgeInsets.all(8),
-                                margin: EdgeInsets.all(4),
-                                alignment: Alignment.center,
                                 child: Text(
                                   selectedUnit,
                                   maxLines: 2,
@@ -277,12 +381,11 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                           ),
                         ],
                       ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 16, 0, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Listener(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Listener(
                               onPointerDown: (_) {
                                 minusButtonPressed = true;
                                 decreaseQuantityWhilePressed();
@@ -290,19 +393,28 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                               onPointerUp: (_) {
                                 minusButtonPressed = false;
                               },
-                              child: Card(
-                                color: secondaryColorLight,
-                                elevation: 4,
-                                child: Container(
-                                  padding: EdgeInsets.all(32),
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: textColor,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: secondaryColorLight,
+                                  border: Border(
+                                    right: BorderSide(
+                                        width: 0.25, color: hintTextColor),
+                                    top: BorderSide(
+                                        width: 0.25, color: hintTextColor),
+                                    bottom: BorderSide(
+                                        width: 0.25, color: hintTextColor),
                                   ),
+                                ),
+                                padding: EdgeInsets.all(16),
+                                child: Icon(
+                                  Icons.remove,
+                                  color: textColor,
                                 ),
                               ),
                             ),
-                            Listener(
+                          ),
+                          Expanded(
+                            child: Listener(
                               onPointerDown: (_) {
                                 addButtonPressed = true;
                                 increaseQuantityWhilePressed();
@@ -310,23 +422,31 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                               onPointerUp: (_) {
                                 addButtonPressed = false;
                               },
-                              child: Card(
-                                color: secondaryColorLight,
-                                elevation: 4,
-                                child: Container(
-                                  padding: EdgeInsets.all(32),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: textColor,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: secondaryColorLight,
+                                  border: Border(
+                                    left: BorderSide(
+                                        width: 0.25, color: hintTextColor),
+                                    top: BorderSide(
+                                        width: 0.25, color: hintTextColor),
+                                    bottom: BorderSide(
+                                        width: 0.25, color: hintTextColor),
                                   ),
+                                ),
+                                padding: EdgeInsets.all(16),
+                                child: Icon(
+                                  Icons.add,
+                                  color: textColor,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Padding(
+                      Container(
                         padding: const EdgeInsets.all(8.0),
+                        color: secondaryColorLight,
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
                             activeTrackColor: primaryColor,
@@ -335,8 +455,8 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                             trackHeight: 4.0,
                             thumbShape:
                                 RoundSliderThumbShape(enabledThumbRadius: 12.0),
-                            thumbColor: secondaryColor,
-                            overlayColor: secondaryColorLight,
+                            thumbColor: primaryColorDark,
+                            overlayColor: primaryColor,
                             overlayShape:
                                 RoundSliderOverlayShape(overlayRadius: 28.0),
                             tickMarkShape: RoundSliderTickMarkShape(),
@@ -363,46 +483,60 @@ class _ItemMenuDialogState extends State<ItemMenuDialog> {
                   ),
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 24, 0, 0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      deleteItem(family, name);
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Delete",
-                      style: itemTextStyle.apply(color: redColor),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: FlatButton(
+                        padding: EdgeInsets.all(16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
+                        color: redColor,
+                        onPressed: () {
+                          deleteItem(family, name);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          deleteString,
+                          style: itemTextStyle,
+                        ),
+                      ),
                     ),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      if (name == nameController.text) {
-                        if (quantity != quantityValueInt ||
-                            unit != selectedUnit) {
-                          editQuantity(
-                              family, name, quantityValueInt, selectedUnit);
-                        }
-                      } else {
-                        replaceItem(family, name, nameController.text,
-                            quantityValueInt, status, selectedUnit);
-                      }
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Save",
-                      style: itemTextStyle,
+                    Expanded(
+                      child: FlatButton(
+                        padding: EdgeInsets.all(16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
+                        color: primaryColorDark,
+                        onPressed: () {
+                          if (name == nameController.text) {
+                            if (quantity != quantityValueInt ||
+                                unit != selectedUnit) {
+                              editQuantity(
+                                  family, name, quantityValueInt, selectedUnit);
+                            }
+                          } else {
+                            replaceItem(family, name, nameController.text,
+                                quantityValueInt, status, selectedUnit);
+                          }
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          saveString,
+                          style: itemTextStyle,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

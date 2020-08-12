@@ -114,11 +114,10 @@ Future<void> replaceItem(String family, String oldItem, String newItem,
   batch.commit();
 }
 
-Future<int> backUpItems(
-    String family, String user, BuildContext context) async {
+Future<int> backUpItems(String family, String user) async {
   var db = Firestore.instance;
   var batch = db.batch();
-  await Firestore.instance
+  await db
       .collection("lists")
       .document(family)
       .collection("items")
@@ -145,4 +144,51 @@ Future<int> backUpItems(
         },
       );
   return 1;
+}
+
+Future<void> getBackedUpItems(String family, String user) async {
+  var db = Firestore.instance;
+  var batch = db.batch();
+  await db
+      .collection("users")
+      .document(user)
+      .collection("items")
+      .getDocuments()
+      .then(
+        (snapshot) async => {
+          for (var itemData in snapshot.documents)
+            {
+              await db
+                  .collection("lists")
+                  .document(family)
+                  .collection("items")
+                  .document(itemData.documentID)
+                  .get()
+                  .then((doc) => {
+                        if (!doc.exists)
+                          {
+                            batch.setData(
+                              db
+                                  .collection("lists")
+                                  .document(family)
+                                  .collection("items")
+                                  .document(itemData.documentID),
+                              {
+                                'status': itemData["status"],
+                                'date': DateTime.now().millisecondsSinceEpoch,
+                                'quantity': itemData["quantity"],
+                                'unit': itemData["unit"],
+                              },
+                            ),
+                          }
+                      }),
+              batch.delete(db
+                  .collection("users")
+                  .document(user)
+                  .collection("items")
+                  .document(itemData.documentID)),
+            },
+          batch.commit(),
+        },
+      );
 }

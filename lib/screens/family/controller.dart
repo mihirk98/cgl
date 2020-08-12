@@ -63,7 +63,7 @@ exitFamilyFunc(String family, String user, BuildContext context) async {
 
 backUpItemsFunc(String family, String user, BuildContext context) async {
   backUpVisibilitySink.add(true);
-  await backUpItems(family, user, context).then((_) {
+  await backUpItems(family, user).then((_) {
     backUpVisibilitySink.add(false);
     backUpStatusSink.add(true);
   });

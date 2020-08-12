@@ -8,6 +8,7 @@ Color secondaryColor = Color(0xfff48fb1);
 Color secondaryColorLight = Color(0xffffc1e3);
 Color secondaryColorDark = Color(0xffbf5f82);
 Color backgroundColor = Color(0xffEFEFEF);
+Color transparentColor = Colors.transparent;
 Color textColor = Color(0xff000000);
 Color hintTextColor = Color(0x88000000);
 Color redColor = Color(0xffb71c1c);

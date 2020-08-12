@@ -91,37 +91,45 @@ class CountryCodeWidget extends StatelessWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          contentPadding: EdgeInsets.all(0),
+          backgroundColor: secondaryColor,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Text(
-                    countryCodesString,
-                    style: subTitleTextStyle,
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      color: textColor,
+              Container(
+                padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+                color: secondaryColorDark,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Text(
+                      countryCodesString,
+                      style: appBarTitleStyle,
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
+                    IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: textColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: countryCodes.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return countryCodeListTile(index);
                     },
                   ),
-                ],
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: countryCodes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return countryCodeListTile(index);
-                  },
                 ),
               ),
             ],

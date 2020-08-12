@@ -2,6 +2,7 @@ import 'package:cgl/constants/styles.dart';
 import 'package:cgl/misc/progressIndicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cgl/constants/strings.dart';
 
 class FamilyMembersWidget extends StatelessWidget {
   const FamilyMembersWidget({
@@ -14,7 +15,7 @@ class FamilyMembersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> familyMembersList = [];
+    List<String> familyMembersList, requestsList = [];
     if (family != null) {
       return Expanded(
         child: StreamBuilder(
@@ -33,26 +34,92 @@ class FamilyMembersWidget extends StatelessWidget {
                       .replaceAll("[", "")
                       .replaceAll("]", "")
                       .split(", ");
-                  return Column(
-                    children: <Widget>[
-                      for (String number in familyMembersList)
-                        mobileNumber == number
+                  requestsList = (snapshot.data["requests"])
+                      .toString()
+                      .replaceAll("[", "")
+                      .replaceAll("]", "")
+                      .split(", ");
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        requestsList.toString() == "[null]" ||
+                                requestsList.toString() == "[]"
                             ? Container()
-                            : Container(
-                                width: double.infinity,
-                                margin: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                                child: Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        16, 16, 0, 16),
+                            : Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 20, 8),
                                     child: Text(
-                                      number,
-                                      style: itemTextStyle,
+                                      requestString,
+                                      style: titleTextStyle,
+                                    ),
+                                  ),
+                                  for (String request in requestsList)
+                                    Container(
+                                      width: double.infinity,
+                                      margin: const EdgeInsets.fromLTRB(
+                                          12, 4, 12, 4),
+                                      child: Card(
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              16, 16, 0, 16),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 4),
+                                                child: Text(
+                                                  request,
+                                                  style: itemTextStyle,
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  codeString +
+                                                      snapshot.data[request],
+                                                  style: subTitleTextStyle,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.fromLTRB(0, 8, 20, 8),
+                          child: Text(
+                            membersSting,
+                            style: titleTextStyle,
+                          ),
+                        ),
+                        for (String number in familyMembersList)
+                          mobileNumber == number
+                              ? Container()
+                              : Container(
+                                  width: double.infinity,
+                                  margin:
+                                      const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 16, 0, 16),
+                                      child: Text(
+                                        number,
+                                        style: itemTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                    ],
+                      ],
+                    ),
                   );
               }
             } else {

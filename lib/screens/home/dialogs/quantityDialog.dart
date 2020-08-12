@@ -82,28 +82,25 @@ class _QuantityDialogState extends State<QuantityDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.fromLTRB(8, 8, 8, 16),
+    return Dialog(
       child: Container(
-        margin: EdgeInsets.all(16),
-        padding: EdgeInsets.all(8),
+        color: secondaryColor,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Center(
-                  child: Text(
+            Container(
+              padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+              color: secondaryColorDark,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
                     quantityString,
                     style: appBarTitleStyle,
                   ),
-                ),
-                Center(
-                  child: IconButton(
+                  IconButton(
                     icon: Icon(
                       Icons.close,
                       color: textColor,
@@ -112,8 +109,8 @@ class _QuantityDialogState extends State<QuantityDialog> {
                       Navigator.pop(context);
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -151,9 +148,9 @@ class _QuantityDialogState extends State<QuantityDialog> {
                         margin: EdgeInsets.fromLTRB(4, 16, 4, 4),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: whiteColor,
+                          color: secondaryColorLight,
                           border: Border.all(
-                            color: primaryColor,
+                            color: secondaryColorLight,
                           ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
@@ -163,7 +160,7 @@ class _QuantityDialogState extends State<QuantityDialog> {
                           'x' + quantity.toString(),
                           maxLines: 2,
                           style: textStyle.apply(
-                            color: primaryColor,
+                            color: whiteColor,
                           ),
                         ),
                       ),
@@ -174,21 +171,29 @@ class _QuantityDialogState extends State<QuantityDialog> {
             Container(
               margin: EdgeInsets.fromLTRB(0, 16, 0, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Listener(
-                    onPointerDown: (_) {
-                      minusButtonPressed = true;
-                      decreaseQuantityWhilePressed();
-                    },
-                    onPointerUp: (_) {
-                      minusButtonPressed = false;
-                    },
-                    child: Card(
-                      color: secondaryColorLight,
-                      elevation: 4,
+                  Expanded(
+                    child: Listener(
+                      onPointerDown: (_) {
+                        minusButtonPressed = true;
+                        decreaseQuantityWhilePressed();
+                      },
+                      onPointerUp: (_) {
+                        minusButtonPressed = false;
+                      },
                       child: Container(
-                        padding: EdgeInsets.all(32),
+                        decoration: BoxDecoration(
+                          color: secondaryColorLight,
+                          border: Border(
+                            right:
+                                BorderSide(width: 0.25, color: hintTextColor),
+                            top: BorderSide(width: 0.25, color: hintTextColor),
+                            bottom:
+                                BorderSide(width: 0.25, color: hintTextColor),
+                          ),
+                        ),
+                        padding: EdgeInsets.all(16),
                         child: Icon(
                           Icons.remove,
                           color: textColor,
@@ -196,19 +201,26 @@ class _QuantityDialogState extends State<QuantityDialog> {
                       ),
                     ),
                   ),
-                  Listener(
-                    onPointerDown: (_) {
-                      addButtonPressed = true;
-                      increaseQuantityWhilePressed();
-                    },
-                    onPointerUp: (_) {
-                      addButtonPressed = false;
-                    },
-                    child: Card(
-                      color: secondaryColorLight,
-                      elevation: 4,
+                  Expanded(
+                    child: Listener(
+                      onPointerDown: (_) {
+                        addButtonPressed = true;
+                        increaseQuantityWhilePressed();
+                      },
+                      onPointerUp: (_) {
+                        addButtonPressed = false;
+                      },
                       child: Container(
-                        padding: EdgeInsets.all(32),
+                        decoration: BoxDecoration(
+                          color: secondaryColorLight,
+                          border: Border(
+                            left: BorderSide(width: 0.25, color: hintTextColor),
+                            top: BorderSide(width: 0.25, color: hintTextColor),
+                            bottom:
+                                BorderSide(width: 0.25, color: hintTextColor),
+                          ),
+                        ),
+                        padding: EdgeInsets.all(16),
                         child: Icon(
                           Icons.add,
                           color: textColor,
@@ -220,6 +232,13 @@ class _QuantityDialogState extends State<QuantityDialog> {
               ),
             ),
             Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: secondaryColorLight,
+                border: Border(
+                  bottom: BorderSide(width: 0.25, color: hintTextColor),
+                ),
+              ),
               child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   activeTrackColor: primaryColor,
@@ -227,8 +246,8 @@ class _QuantityDialogState extends State<QuantityDialog> {
                   trackShape: RoundedRectSliderTrackShape(),
                   trackHeight: 4.0,
                   thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
-                  thumbColor: secondaryColor,
-                  overlayColor: secondaryColorLight,
+                  thumbColor: primaryColorDark,
+                  overlayColor: primaryColor,
                   overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
                   tickMarkShape: RoundSliderTickMarkShape(),
                   activeTickMarkColor: secondaryColor,
@@ -253,6 +272,7 @@ class _QuantityDialogState extends State<QuantityDialog> {
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
+                  color: secondaryColorLight,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Column(
                     children: unitsList
@@ -274,19 +294,27 @@ class _QuantityDialogState extends State<QuantityDialog> {
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.centerRight,
-              child: FlatButton(
-                onPressed: () {
-                  controller.quantitySink.add(quantityValueInt);
-                  controller.unitSink.add(selectedUnit);
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Save",
-                  style: itemTextStyle,
+            Row(
+              children: [
+                Expanded(
+                  child: FlatButton(
+                    padding: EdgeInsets.all(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    color: primaryColorDark,
+                    onPressed: () {
+                      controller.quantitySink.add(quantityValueInt);
+                      controller.unitSink.add(selectedUnit);
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      saveString,
+                      style: itemTextStyle,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
