@@ -56,6 +56,7 @@ String notifyMessageHintString = "Enter message here...";
 String notifyMessageDefaultString =
     "I'm stepping out! Let me know if you need anything!";
 String codeString = "Code: ";
+String internetStatusString = "No internet connection...";
 String requestString = "Requests";
 String membersSting = "Members";
 String errorString = "Error...";
@@ -66,5 +67,6 @@ String welcomeString = "Welcome";
 String deleteString = "Delete";
 String saveString = "Save";
 String cancelString = "Cancel";
+String notificationString = "Notification";
 
 String fontString = "Roboto";

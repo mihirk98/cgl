@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cgl/misc/internetStatus.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
@@ -29,9 +30,17 @@ class LogInPage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: <Widget>[
-              CountryCodeWidget(controller),
-              MobileNumberWidget(controller: controller),
-              OTPWidget(),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CountryCodeWidget(controller),
+                    MobileNumberWidget(controller: controller),
+                    OTPWidget(),
+                  ],
+                ),
+              ),
+              InternetStatusWidget(),
             ],
           ),
         ),

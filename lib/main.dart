@@ -1,5 +1,6 @@
-// Flutter imports:
 import 'package:cgl/constants/styles.dart';
+import 'package:cgl/internetStatusSingleton.dart';
+import 'package:cgl/misc/snackBar.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -26,8 +27,62 @@ class _MainPageState extends State<MainPage> {
     final FirebaseMessaging fcm = FirebaseMessaging();
     fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
-        //ToDo
+        print("Message");
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+              content: Container(
+            child: Text("Hi"),
+          )),
+        );
+        /*showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              child: Container(
+                color: secondaryColor,
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+                      color: secondaryColorDark,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            notificationString,
+                            style: appBarTitleStyle,
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.close,
+                              color: textColor,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          message['notification']['body'],
+                          style: textStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );*/
       },
+      onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         //Todo
       },
@@ -39,6 +94,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
+    InternetStatusSingleton connectionStatus =
+        InternetStatusSingleton.getInstance();
+    connectionStatus.initialize();
     handleNotifications();
     super.initState();
   }
@@ -104,4 +162,18 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+}
+
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+  }
+
+  // Or do other work.
 }

@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cgl/misc/internetStatus.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
 import 'package:flutter/material.dart';
@@ -106,32 +107,39 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
         body: SafeArea(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.fromLTRB(24, 12, 0, 4),
-                  child: Text(
-                    createFamilyString,
-                    style: appBarTitleStyle,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.fromLTRB(24, 12, 0, 4),
+                        child: Text(
+                          createFamilyString,
+                          style: appBarTitleStyle,
+                        ),
+                      ),
+                      buildCreateFamily(),
+                      Center(
+                        child: Text(
+                          orString,
+                          style: subTitleTextStyle,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.fromLTRB(24, 12, 0, 4),
+                        child: Text(
+                          joinFamilyString,
+                          style: appBarTitleStyle,
+                        ),
+                      ),
+                      buildJoinFamily(),
+                    ],
                   ),
                 ),
-                buildCreateFamily(),
-                Center(
-                  child: Text(
-                    orString,
-                    style: subTitleTextStyle,
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.fromLTRB(24, 12, 0, 4),
-                  child: Text(
-                    joinFamilyString,
-                    style: appBarTitleStyle,
-                  ),
-                ),
-                buildJoinFamily(),
+                InternetStatusWidget(),
               ],
             ),
           ),

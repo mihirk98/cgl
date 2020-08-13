@@ -1,6 +1,7 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
+import 'package:cgl/misc/internetStatus.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
 import 'package:cgl/screens/family/controller.dart';
@@ -34,14 +35,17 @@ class FamilyPage extends StatelessWidget {
           },
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          FamilyWidget(
-              controller: controller,
-              family: family,
-              mobileNumber: mobileNumber),
-          FamilyMembersWidget(family: family, mobileNumber: mobileNumber),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            FamilyWidget(
+                controller: controller,
+                family: family,
+                mobileNumber: mobileNumber),
+            FamilyMembersWidget(family: family, mobileNumber: mobileNumber),
+            InternetStatusWidget(),
+          ],
+        ),
       ),
     );
   }

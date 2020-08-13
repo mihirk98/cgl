@@ -1,7 +1,11 @@
 // Flutter imports:
+import 'dart:async';
+
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
+import 'package:cgl/internetStatusSingleton.dart';
+import 'package:cgl/misc/internetStatus.dart';
 import 'package:cgl/misc/progressIndicator.dart';
 import 'package:cgl/models/item.dart';
 import 'package:cgl/models/user.dart';
@@ -13,8 +17,14 @@ import 'package:cgl/screens/home/widgets/addItem.dart';
 import 'package:cgl/screens/home/widgets/items.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final HomeController controller = HomeController();
+
   @override
   Widget build(BuildContext context) {
     User userProvider = UserProvider.of(context);
@@ -128,6 +138,7 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               ItemsWidget(family: family, controller: controller),
               AddItemWidget(controller: controller),
+              InternetStatusWidget(),
             ],
           ),
         ),
