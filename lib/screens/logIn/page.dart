@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cgl/misc/actionStatus.dart';
 import 'package:cgl/misc/internetStatus.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,12 @@ class LogInPage extends StatelessWidget {
                   ],
                 ),
               ),
-              InternetStatusWidget(),
+              Column(
+                children: [
+                  ActionStatusWidget(),
+                  InternetStatusWidget(),
+                ],
+              ),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
+import 'package:cgl/misc/actionStatus.dart';
 import 'package:cgl/misc/internetStatus.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
@@ -43,6 +44,7 @@ class FamilyPage extends StatelessWidget {
                 family: family,
                 mobileNumber: mobileNumber),
             FamilyMembersWidget(family: family, mobileNumber: mobileNumber),
+            ActionStatusWidget(),
             InternetStatusWidget(),
           ],
         ),

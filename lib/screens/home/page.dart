@@ -1,10 +1,10 @@
 // Flutter imports:
-import 'dart:async';
 
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
-import 'package:cgl/internetStatusSingleton.dart';
+import 'package:cgl/misc/actionStatus.dart';
+
 import 'package:cgl/misc/internetStatus.dart';
 import 'package:cgl/misc/progressIndicator.dart';
 import 'package:cgl/models/item.dart';
@@ -136,6 +136,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              ActionStatusWidget(),
               ItemsWidget(family: family, controller: controller),
               AddItemWidget(controller: controller),
               InternetStatusWidget(),

@@ -1,7 +1,14 @@
 import 'dart:async';
 
+import 'package:cgl/actionStatusSingleton.dart';
+import 'package:cgl/constants/strings.dart';
+import 'package:cgl/misc/progressIndicator.dart';
 import 'package:cgl/models/item.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+ActionStatusSingleton actionStatus = ActionStatusSingleton.getInstance();
 
 class HomeController {
   //Checked Visbility
@@ -76,4 +83,44 @@ Future<bool> getCheckedVisibility() async {
 Future<void> setCheckedVisibility(bool visbilityValue) async {
   final SharedPreferences pref = await SharedPreferences.getInstance();
   pref.setBool("checkedVisbility", visbilityValue);
+}
+
+Future<void> sendNotification(
+  bool familyMembersExists,
+  BuildContext context,
+  List<String> familyMembersList,
+  List<bool> familyMembersNotifyStatusList,
+  String mobileNumber,
+  String notifyMessage,
+) async {
+  if (familyMembersExists) {
+    showProgressIndicatorDialog(context);
+    List<String> familyMembersNotifyList = [];
+    for (int i = 0; i < familyMembersList.length; i++) {
+      if (familyMembersNotifyStatusList[i] == true) {
+        if (familyMembersList[i] != mobileNumber) {
+          familyMembersNotifyList.add(familyMembersList[i]);
+        }
+      }
+    }
+    final HttpsCallable httpsCallable = new CloudFunctions(region: "asia-east2")
+        .getHttpsCallable(functionName: 'notifyFamily');
+    httpsCallable.call(<String, dynamic>{
+      'familyMembers': familyMembersNotifyList,
+      'message': notifyMessage,
+    }).then(
+        (_) => {
+              actionStatus.descriptionSink.add(notificationSentString),
+              actionStatus.actionVisibilitySink.add(true),
+            }, onError: (e) {
+      actionStatus.descriptionSink.add(notificationFailString);
+      actionStatus.actionVisibilitySink.add(true);
+    }).then((_) => {
+          Future.delayed(const Duration(milliseconds: 5000), () {
+            actionStatus.actionVisibilitySink.add(false);
+          }),
+        });
+    hideProgressIndicatorDialog(context);
+    Navigator.pop(context);
+  }
 }

@@ -1,7 +1,9 @@
+import 'package:cgl/actionStatusSingleton.dart';
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/misc/progressIndicator.dart';
+import 'package:cgl/screens/home/controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
@@ -198,32 +200,13 @@ class _FamilyNotifyDialogState extends State<FamilyNotifyDialog> {
                             notifyString,
                             style: itemTextStyle,
                           ),
-                          onPressed: () async {
-                            if (familyMembersExists) {
-                              showProgressIndicatorDialog(context);
-                              List<String> familyMembersNotifyList = [];
-                              for (int i = 0;
-                                  i < familyMembersList.length;
-                                  i++) {
-                                if (familyMembersNotifyStatusList[i] == true) {
-                                  if (familyMembersList[i] != mobileNumber) {
-                                    familyMembersNotifyList
-                                        .add(familyMembersList[i]);
-                                  }
-                                }
-                              }
-                              final HttpsCallable httpsCallable =
-                                  new CloudFunctions(region: "asia-east2")
-                                      .getHttpsCallable(
-                                          functionName: 'notifyFamily');
-                              httpsCallable.call(<String, dynamic>{
-                                'familyMembers': familyMembersNotifyList,
-                                'message': notifyMessageTextController.text,
-                              });
-                              hideProgressIndicatorDialog(context);
-                              Navigator.pop(context);
-                            }
-                          },
+                          onPressed: () => sendNotification(
+                              familyMembersExists,
+                              context,
+                              familyMembersList,
+                              familyMembersNotifyStatusList,
+                              mobileNumber,
+                              notifyMessageTextController.text),
                         ),
                       ),
                     ],

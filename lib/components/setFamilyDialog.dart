@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cgl/misc/actionStatus.dart';
 import 'package:cgl/misc/internetStatus.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
@@ -139,6 +140,7 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
                     ],
                   ),
                 ),
+                ActionStatusWidget(),
                 InternetStatusWidget(),
               ],
             ),
