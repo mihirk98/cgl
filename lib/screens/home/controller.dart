@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cgl/actionStatusSingleton.dart';
 import 'package:cgl/constants/strings.dart';
-import 'package:cgl/misc/progressIndicator.dart';
+import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/models/item.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +103,8 @@ Future<void> sendNotification(
         }
       }
     }
+    actionStatus.descriptionSink.add(sendingNotificationString);
+    actionStatus.actionVisibilitySink.add(true);
     final HttpsCallable httpsCallable = new CloudFunctions(region: "asia-east2")
         .getHttpsCallable(functionName: 'notifyFamily');
     httpsCallable.call(<String, dynamic>{
@@ -111,10 +113,8 @@ Future<void> sendNotification(
     }).then(
         (_) => {
               actionStatus.descriptionSink.add(notificationSentString),
-              actionStatus.actionVisibilitySink.add(true),
             }, onError: (e) {
       actionStatus.descriptionSink.add(notificationFailString);
-      actionStatus.actionVisibilitySink.add(true);
     }).then((_) => {
           Future.delayed(const Duration(milliseconds: 5000), () {
             actionStatus.actionVisibilitySink.add(false);

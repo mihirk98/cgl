@@ -1,7 +1,7 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
-import 'package:cgl/misc/progressIndicator.dart';
+import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/models/item.dart';
 import 'package:cgl/screens/home/components/item.dart';
 import 'package:cgl/screens/home/controller.dart';

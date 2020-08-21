@@ -1,7 +1,7 @@
 // Flutter imports:
 import 'dart:io';
 
-import 'package:cgl/misc/snackBar.dart';
+import 'package:cgl/widgets/snackBar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -45,10 +45,11 @@ Future<User> getUser() async {
   return User(mobileNumber, countryCode, document, token);
 }
 
-Future<void> createUser(
+Future<bool> createUser(
     BuildContext context, String dialCode, String mobileNumber) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String token = await notificationToken(mobileNumber);
+  bool returnValue;
   try {
     await Firestore.instance
         .collection("users")
@@ -84,9 +85,12 @@ Future<void> createUser(
                   prefs.setString('token', token),
                 }
             });
+    returnValue = true;
   } on PlatformException catch (e) {
+    returnValue = false;
     showSnackBar(context, errorString + e.toString(), 10);
   }
+  return returnValue;
 }
 
 Future<String> notificationToken(String mobileNumber) async {

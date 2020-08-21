@@ -14,12 +14,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cgl/screens/home/page.dart';
 import 'package:cgl/components/setFamilyDialog.dart';
 import 'package:cgl/constants/strings.dart';
-import 'package:cgl/misc/progressIndicator.dart';
-import 'package:cgl/misc/snackBar.dart';
+import 'package:cgl/widgets/progressIndicator.dart';
+import 'package:cgl/widgets/snackBar.dart';
 import 'package:cgl/models/user.dart';
 
 String dialCode = "", mobileNumber = "", verificationId = "";
-bool otpStatus = false;
+bool otpStatus = false, timeOutStatus = false;
 
 final otpStatusStreamController = StreamController<bool>();
 Stream<bool> get otpStatusStream => otpStatusStreamController.stream;
@@ -68,13 +68,11 @@ sendOTP(BuildContext context) async {
   final PhoneVerificationCompleted verified =
       (AuthCredential authResult) async {
     FirebaseAuth.instance.signInWithCredential(authResult);
-    await createUser(context, dialCode, mobileNumber);
-    familyStatus(context);
+    createUserStatus(context, dialCode, mobileNumber);
   };
 
   final PhoneVerificationFailed verificationfailed =
       (AuthException authException) {
-    hideProgressIndicatorDialog(context);
     showSnackBar(
         context, otpVerificationErrorString + "${authException.message}", 5);
   };
@@ -88,14 +86,14 @@ sendOTP(BuildContext context) async {
   };
 
   final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-    hideProgressIndicatorDialog(context);
+    timeOutStatus = true;
     showSnackBar(context, enterOTPString, 2);
     verificationId = verId;
   };
 
   await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: dialCode + mobileNumber,
-      timeout: const Duration(seconds: 15),
+      timeout: const Duration(seconds: 30),
       verificationCompleted: verified,
       verificationFailed: verificationfailed,
       codeSent: smsSent,
@@ -104,7 +102,11 @@ sendOTP(BuildContext context) async {
 
 verifyOTP(BuildContext context, String otp) {
   if (otpStatus) {
-    signInWithOTP(context, otp);
+    if (timeOutStatus) {
+      signInWithOTP(context, otp);
+    } else {
+      showSnackBar(context, autoRetrievalAttemptString, 5);
+    }
   } else {
     showSnackBar(context, verifyNumberBeforeOTPString, 5);
   }
@@ -117,10 +119,9 @@ signInWithOTP(BuildContext context, String smsCode) async {
         verificationId: verificationId, smsCode: smsCode);
     try {
       await FirebaseAuth.instance.signInWithCredential(authCreds);
-      await createUser(context, dialCode, mobileNumber);
-      hideProgressIndicatorDialog(context);
-      familyStatus(context);
+      createUserStatus(context, dialCode, mobileNumber);
     } on PlatformException catch (e) {
+      hideProgressIndicatorDialog(context);
       showSnackBar(context, e.toString(), 5);
     }
   } else {
@@ -155,4 +156,18 @@ familyStatus(BuildContext context) async {
       ),
     );
   }
+}
+
+Future<void> createUserStatus(
+    BuildContext context, String dialCode, String mobileNumber) async {
+  await createUser(context, dialCode, mobileNumber).then((status) => {
+        if (status)
+          {
+            familyStatus(context),
+          }
+        else
+          {
+            createUserStatus(context, dialCode, mobileNumber),
+          }
+      });
 }

@@ -51,14 +51,19 @@ String listBackingUpString = "Backing up list...";
 String listBackedUpString = "List backed up.";
 String familyNotifyString = "Notify Family";
 String noFamilyMembersString = "No family members...";
-String notificationSentString = "Notification sent...";
+String sendingNotificationString = "Delivering notification...";
+String notificationSentString = "Notification delivered...";
 String notificationFailString = "Notification failure...";
 String notifyString = "Notify";
 String notifyMessageHintString = "Enter message here...";
 String notifyMessageDefaultString =
     "I'm stepping out! Let me know if you need anything!";
+String autoRetrievalAttemptString =
+    "Attempting auto retrieval, try again in a few seconds...";
 String codeString = "Code: ";
 String internetStatusString = "No internet connection...";
+String appDescription = "a collaborative list";
+String shareEmailSubjectString = "Check out this app!";
 String requestString = "Requests";
 String membersSting = "Members";
 String errorString = "Error...";
@@ -70,5 +75,8 @@ String deleteString = "Delete";
 String saveString = "Save";
 String cancelString = "Cancel";
 String notificationString = "Notification";
+String closeString = "Close";
+String shareString = "Share app";
+String downloadString = "Download backup items";
 
 String fontString = "Roboto";

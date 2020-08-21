@@ -1,5 +1,5 @@
 import 'package:cgl/constants/styles.dart';
-import 'package:cgl/misc/progressIndicator.dart';
+import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:cgl/constants/strings.dart';
@@ -92,32 +92,41 @@ class FamilyMembersWidget extends StatelessWidget {
                                     ),
                                 ],
                               ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.fromLTRB(0, 8, 20, 8),
-                          child: Text(
-                            membersSting,
-                            style: titleTextStyle,
-                          ),
-                        ),
-                        for (String number in familyMembersList)
-                          mobileNumber == number
-                              ? Container()
-                              : Container(
-                                  width: double.infinity,
-                                  margin:
-                                      const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 16, 0, 16),
-                                      child: Text(
-                                        number,
-                                        style: itemTextStyle,
-                                      ),
+                        familyMembersList.toString() == "[null]" ||
+                                familyMembersList.toString() == "[]"
+                            ? Container()
+                            : Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 20, 8),
+                                    child: Text(
+                                      membersSting,
+                                      style: titleTextStyle,
                                     ),
                                   ),
-                                ),
+                                  for (String number in familyMembersList)
+                                    mobileNumber == number
+                                        ? Container()
+                                        : Container(
+                                            width: double.infinity,
+                                            margin: const EdgeInsets.fromLTRB(
+                                                12, 4, 12, 4),
+                                            child: Card(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        16, 16, 0, 16),
+                                                child: Text(
+                                                  number,
+                                                  style: itemTextStyle,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                ],
+                              ),
                       ],
                     ),
                   );

@@ -3,10 +3,11 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
-import 'package:cgl/misc/actionStatus.dart';
+import 'package:cgl/widgets/actionStatus.dart';
+import 'package:cgl/widgets/homeDrawer.dart';
 
-import 'package:cgl/misc/internetStatus.dart';
-import 'package:cgl/misc/progressIndicator.dart';
+import 'package:cgl/widgets/internetStatus.dart';
+import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/models/item.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
@@ -33,13 +34,13 @@ class _HomePageState extends State<HomePage> {
       onWillPop: () => null,
       child: Scaffold(
         backgroundColor: backgroundColor,
+        drawer: HomeDrawer(userProvider),
         appBar: AppBar(
           title: Text(
             appTitleString,
             style: appBarTitleStyle,
           ),
           elevation: 0,
-          automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
               onPressed: () {
@@ -58,42 +59,6 @@ class _HomePageState extends State<HomePage> {
               },
               icon: Icon(
                 Icons.notifications,
-                color: textColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () async {
-                showProgressIndicatorDialog(context);
-                getBackedUpItems(
-                        userProvider.document,
-                        userProvider.countryCode +
-                            "-" +
-                            userProvider.mobileNumber)
-                    .then((_) => hideProgressIndicatorDialog(context));
-              },
-              icon: Icon(
-                Icons.file_download,
-                color: textColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserProvider(
-                        user: User(
-                          userProvider.mobileNumber,
-                          userProvider.countryCode,
-                          userProvider.document,
-                          userProvider.token,
-                        ),
-                        child: FamilyPage()),
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.people,
                 color: textColor,
               ),
             ),

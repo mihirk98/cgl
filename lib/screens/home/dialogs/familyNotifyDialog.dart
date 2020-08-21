@@ -1,11 +1,10 @@
-import 'package:cgl/actionStatusSingleton.dart';
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
-import 'package:cgl/misc/progressIndicator.dart';
+import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/screens/home/controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
+
 import 'package:flutter/material.dart';
 
 class FamilyNotifyDialog extends StatefulWidget {

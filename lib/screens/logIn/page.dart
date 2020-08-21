@@ -1,6 +1,6 @@
 // Flutter imports:
-import 'package:cgl/misc/actionStatus.dart';
-import 'package:cgl/misc/internetStatus.dart';
+import 'package:cgl/widgets/actionStatus.dart';
+import 'package:cgl/widgets/internetStatus.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:

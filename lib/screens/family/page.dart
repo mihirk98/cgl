@@ -1,8 +1,8 @@
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
-import 'package:cgl/misc/actionStatus.dart';
-import 'package:cgl/misc/internetStatus.dart';
+import 'package:cgl/widgets/actionStatus.dart';
+import 'package:cgl/widgets/internetStatus.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
 import 'package:cgl/screens/family/controller.dart';
