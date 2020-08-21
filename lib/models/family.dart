@@ -6,44 +6,51 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<bool> createFamily(String familyName) async {
+Future<String> createFamily(String familyName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String countryCode = prefs.getString("countryCode");
   String mobileNumber = prefs.getString("mobileNumber");
   String user = (countryCode + ("-") + mobileNumber);
-  bool docStatus;
+  String docStatus;
   var db = Firestore.instance;
   var batch = db.batch();
-  await db.collection("lists").document(familyName).get().then((doc) => {
-        if (!doc.exists)
-          {
-            batch.setData(db.collection("lists").document(familyName), {
-              'family': FieldValue.arrayUnion([user])
-            }),
-            batch.updateData(
-                db.collection("users").document(user), {"family": familyName}),
-            batch.setData(
-              db
-                  .collection("lists")
-                  .document(familyName)
-                  .collection("items")
-                  .document("Apple"),
+  await db
+      .collection("lists")
+      .document(familyName)
+      .get()
+      .then((doc) => {
+            if (!doc.exists)
               {
-                'status': 0,
-                'date': DateTime.now().millisecondsSinceEpoch,
-                'quantity': 1,
-                'unit': 'unit/s'
-              },
-            ),
-            batch.commit(),
-            prefs.setString('document', familyName),
-            docStatus = true,
-          }
-        else
-          {
-            docStatus = false,
-          }
-      });
+                batch.setData(db.collection("lists").document(familyName), {
+                  'family': FieldValue.arrayUnion([user])
+                }),
+                batch.updateData(db.collection("users").document(user),
+                    {"family": familyName}),
+                batch.setData(
+                  db
+                      .collection("lists")
+                      .document(familyName)
+                      .collection("items")
+                      .document("Apple"),
+                  {
+                    'status': 0,
+                    'date': DateTime.now().millisecondsSinceEpoch,
+                    'quantity': 1,
+                    'unit': 'unit/s'
+                  },
+                ),
+                batch.commit(),
+                prefs.setString('document', familyName),
+                docStatus = "1",
+              }
+            else
+              {
+                docStatus = "0",
+              }
+          })
+      .catchError((e) {
+    docStatus = e.toString();
+  });
   return docStatus;
 }
 

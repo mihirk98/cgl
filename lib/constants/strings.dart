@@ -64,6 +64,20 @@ String codeString = "Code: ";
 String internetStatusString = "No internet connection...";
 String appDescription = "a collaborative list";
 String shareEmailSubjectString = "Check out this app!";
+String familyFAQ1String = "Are you confused? Read below,";
+String familyFAQ2String = "What is a family?";
+String familyFAQ3String = "- A family is the name of your shareable list.";
+String familyFAQ4String = "Somone asked me to download the app:";
+String familyFAQ5String =
+    "Ask them for the family name and enter it below \"Join family\".";
+String familyFAQ6String = "I do not have a family name:";
+String familyFAQ7String = "Create a new family.";
+String familyFAQ8String = "I do have a family name:";
+String familyFAQ9String =
+    "Join the family by entering it below \"Join Family\".";
+String familyFAQ10String = "I wish to use the app alone:";
+String familyFAQ11String =
+    "Create a family. This allows you to share your list in the future if you'd like.";
 String requestString = "Requests";
 String membersSting = "Members";
 String errorString = "Error...";

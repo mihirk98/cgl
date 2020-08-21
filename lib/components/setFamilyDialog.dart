@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cgl/actionStatusSingleton.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -17,6 +18,8 @@ import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/models/family.dart';
+
+ActionStatusSingleton actionStatus = ActionStatusSingleton.getInstance();
 
 class SetFamilyDialog extends StatefulWidget {
   _SetFamilyDialogState createState() => _SetFamilyDialogState();
@@ -106,44 +109,126 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
         key: scaffoldKey,
         backgroundColor: primaryColor,
         body: SafeArea(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.fromLTRB(24, 12, 0, 4),
-                        child: Text(
-                          createFamilyString,
-                          style: appBarTitleStyle,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              ActionStatusWidget(),
+              Expanded(
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      margin: const EdgeInsets.fromLTRB(24, 24, 0, 4),
+                      child: Text(
+                        createFamilyString,
+                        style: appBarTitleStyle,
+                      ),
+                    ),
+                    buildCreateFamily(),
+                    Center(
+                      child: Text(
+                        orString,
+                        style: subTitleTextStyle,
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      margin: const EdgeInsets.fromLTRB(24, 12, 0, 4),
+                      child: Text(
+                        joinFamilyString,
+                        style: appBarTitleStyle,
+                      ),
+                    ),
+                    buildJoinFamily(),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Container(
+                          color: primaryColorLight,
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(24),
+                          margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                          child: RichText(
+                            text: TextSpan(children: <TextSpan>[
+                              TextSpan(
+                                text: familyFAQ1String,
+                                style: itemTextStyle.copyWith(fontSize: 30),
+                              ),
+                              TextSpan(text: "\n\n"),
+                              TextSpan(
+                                text: familyFAQ2String,
+                                style: itemTextStyle.copyWith(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(text: "\n"),
+                              TextSpan(
+                                text: familyFAQ3String,
+                              ),
+                              TextSpan(text: "\n\n"),
+                              TextSpan(text: " - "),
+                              TextSpan(
+                                text: familyFAQ4String,
+                                style: itemTextStyle
+                                    .copyWith(fontWeight: FontWeight.w900)
+                                    .apply(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                              ),
+                              TextSpan(text: " "),
+                              TextSpan(
+                                text: familyFAQ5String,
+                              ),
+                              TextSpan(text: "\n\n"),
+                              TextSpan(text: " - "),
+                              TextSpan(
+                                text: familyFAQ6String,
+                                style: itemTextStyle
+                                    .copyWith(fontWeight: FontWeight.w900)
+                                    .apply(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                              ),
+                              TextSpan(text: " "),
+                              TextSpan(
+                                text: familyFAQ7String,
+                              ),
+                              TextSpan(text: "\n\n"),
+                              TextSpan(text: " - "),
+                              TextSpan(
+                                text: familyFAQ8String,
+                                style: itemTextStyle
+                                    .copyWith(fontWeight: FontWeight.w900)
+                                    .apply(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                              ),
+                              TextSpan(text: " "),
+                              TextSpan(
+                                text: familyFAQ9String,
+                              ),
+                              TextSpan(text: "\n\n"),
+                              TextSpan(text: " - "),
+                              TextSpan(
+                                text: familyFAQ10String,
+                                style: itemTextStyle
+                                    .copyWith(fontWeight: FontWeight.w900)
+                                    .apply(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                              ),
+                              TextSpan(text: " "),
+                              TextSpan(
+                                text: familyFAQ11String,
+                              ),
+                            ], style: itemTextStyle),
+                          ),
                         ),
                       ),
-                      buildCreateFamily(),
-                      Center(
-                        child: Text(
-                          orString,
-                          style: subTitleTextStyle,
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.fromLTRB(24, 12, 0, 4),
-                        child: Text(
-                          joinFamilyString,
-                          style: appBarTitleStyle,
-                        ),
-                      ),
-                      buildJoinFamily(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                ActionStatusWidget(),
-                InternetStatusWidget(),
-              ],
-            ),
+              ),
+              InternetStatusWidget(),
+            ],
           ),
         ),
       ),
@@ -207,10 +292,16 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
     if (createFamilyController.text.length != 0) {
       joinFamilyController.text = "";
       showProgressIndicatorDialog(context);
-      bool familyStatus =
+      String familyStatus =
           await createFamily(createFamilyController.text.toLowerCase());
-      if (!familyStatus) {
+      if (familyStatus == "0") {
         showSnackBar(context, familyExistsString, 5);
+      } else if (familyStatus != "1") {
+        actionStatus.descriptionSink.add(familyStatus);
+        actionStatus.actionVisibilitySink.add(true);
+        Future.delayed(const Duration(milliseconds: 5000), () {
+          actionStatus.actionVisibilitySink.add(false);
+        });
       }
       hideProgressIndicatorDialog(context);
     } else {
