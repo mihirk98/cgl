@@ -1,3 +1,7 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
@@ -8,7 +12,6 @@ import 'package:cgl/providers/userProvider.dart';
 import 'package:cgl/screens/family/controller.dart';
 import 'package:cgl/screens/family/widgets/family.dart';
 import 'package:cgl/screens/family/widgets/familyMembers.dart';
-import 'package:flutter/material.dart';
 
 class FamilyPage extends StatelessWidget {
   final FamilyController controller = FamilyController();

@@ -1,8 +1,11 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/screens/family/controller.dart';
-import 'package:flutter/material.dart';
 
 showExitConfirmationDialog(
     final controller, String family, String user, BuildContext context) {

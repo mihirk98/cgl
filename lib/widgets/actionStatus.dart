@@ -1,7 +1,10 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:cgl/actionStatusSingleton.dart';
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/styles.dart';
-import 'package:flutter/material.dart';
 
 class ActionStatusWidget extends StatefulWidget {
   @override

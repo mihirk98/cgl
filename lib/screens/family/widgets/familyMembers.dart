@@ -1,7 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+// Project imports:
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/widgets/progressIndicator.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:cgl/constants/strings.dart';
 
 class FamilyMembersWidget extends StatelessWidget {

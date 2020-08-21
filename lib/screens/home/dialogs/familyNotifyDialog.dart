@@ -1,11 +1,15 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/screens/home/controller.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:flutter/material.dart';
 
 class FamilyNotifyDialog extends StatefulWidget {
   final String mobileNumber, family;

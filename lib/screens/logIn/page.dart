@@ -1,9 +1,9 @@
 // Flutter imports:
-import 'package:cgl/widgets/actionStatus.dart';
-import 'package:cgl/widgets/internetStatus.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:cgl/widgets/actionStatus.dart';
+import 'package:cgl/widgets/internetStatus.dart';
 import 'package:cgl/screens/logIn/controller.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';

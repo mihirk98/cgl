@@ -1,16 +1,17 @@
-// Flutter imports:
+// Dart imports:
 import 'dart:io';
 
-import 'package:cgl/widgets/snackBar.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
+import 'package:cgl/widgets/snackBar.dart';
 import 'package:cgl/constants/strings.dart';
 
 class User {

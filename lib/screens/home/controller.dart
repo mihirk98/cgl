@@ -1,12 +1,18 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
 import 'package:cgl/actionStatusSingleton.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/models/item.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 ActionStatusSingleton actionStatus = ActionStatusSingleton.getInstance();
 

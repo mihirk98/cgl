@@ -1,9 +1,13 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:cgl/components/setFamilyDialog.dart';
 import 'package:cgl/models/family.dart';
 import 'package:cgl/screens/family/dialogs/exitConfirmationDialog.dart';
-import 'package:flutter/material.dart';
 import 'package:cgl/models/item.dart';
 
 final backUpVisibilityUpdateStreamController =

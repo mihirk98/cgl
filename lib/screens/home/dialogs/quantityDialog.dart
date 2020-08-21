@@ -1,9 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/quantityShortcuts.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/constants/units.dart';
-import 'package:flutter/material.dart';
 
 class QuantityDialog extends StatefulWidget {
   const QuantityDialog(

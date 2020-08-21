@@ -1,22 +1,19 @@
 // Flutter imports:
+import 'package:flutter/material.dart';
 
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/widgets/actionStatus.dart';
 import 'package:cgl/widgets/homeDrawer.dart';
-
 import 'package:cgl/widgets/internetStatus.dart';
-import 'package:cgl/widgets/progressIndicator.dart';
-import 'package:cgl/models/item.dart';
 import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
-import 'package:cgl/screens/family/page.dart';
 import 'package:cgl/screens/home/controller.dart';
 import 'package:cgl/screens/home/dialogs/familyNotifyDialog.dart';
 import 'package:cgl/screens/home/widgets/addItem.dart';
 import 'package:cgl/screens/home/widgets/items.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   @override

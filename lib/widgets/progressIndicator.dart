@@ -1,9 +1,9 @@
 // Flutter imports:
-import 'package:cgl/constants/strings.dart';
-import 'package:cgl/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:cgl/constants/strings.dart';
+import 'package:cgl/constants/styles.dart';
 import 'package:cgl/constants/colors.dart';
 
 SizedBox showProgressIndicator() {

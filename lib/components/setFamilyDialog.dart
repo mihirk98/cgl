@@ -1,8 +1,4 @@
 // Flutter imports:
-import 'package:cgl/widgets/actionStatus.dart';
-import 'package:cgl/widgets/internetStatus.dart';
-import 'package:cgl/models/user.dart';
-import 'package:cgl/providers/userProvider.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,6 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
+import 'package:cgl/widgets/actionStatus.dart';
+import 'package:cgl/widgets/internetStatus.dart';
+import 'package:cgl/models/user.dart';
+import 'package:cgl/providers/userProvider.dart';
 import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/widgets/snackBar.dart';
 import 'package:cgl/screens/home/page.dart';

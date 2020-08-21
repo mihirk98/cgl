@@ -1,3 +1,10 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:share/share.dart';
+
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/constants/strings.dart';
@@ -6,8 +13,6 @@ import 'package:cgl/models/user.dart';
 import 'package:cgl/providers/userProvider.dart';
 import 'package:cgl/screens/family/page.dart';
 import 'package:cgl/widgets/progressIndicator.dart';
-import 'package:flutter/material.dart';
-import 'package:share/share.dart';
 
 class HomeDrawer extends StatelessWidget {
   final User userProvider;

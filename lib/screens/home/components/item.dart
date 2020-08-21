@@ -1,8 +1,11 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/models/item.dart';
 import 'package:cgl/screens/home/dialogs/itemMenuDialog.dart';
-import 'package:flutter/material.dart';
 
 class ItemWidget extends StatelessWidget {
   final bool status;

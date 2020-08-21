@@ -1,9 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:cgl/constants/colors.dart';
 import 'package:cgl/constants/strings.dart';
 import 'package:cgl/constants/styles.dart';
 import 'package:cgl/models/item.dart';
 import 'package:cgl/screens/home/dialogs/quantityDialog.dart';
-import 'package:flutter/material.dart';
 
 class AddItemWidget extends StatefulWidget {
   const AddItemWidget({

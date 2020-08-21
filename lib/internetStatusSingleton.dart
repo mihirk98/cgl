@@ -1,7 +1,8 @@
+// Dart imports:
 import 'dart:async';
-
 import 'dart:io';
 
+// Package imports:
 import 'package:connectivity/connectivity.dart';
 
 class InternetStatusSingleton {

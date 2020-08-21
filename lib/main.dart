@@ -1,12 +1,13 @@
-import 'package:cgl/actionStatusSingleton.dart';
-import 'package:cgl/constants/styles.dart';
-import 'package:cgl/internetStatusSingleton.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 // Project imports:
+import 'package:cgl/actionStatusSingleton.dart';
+import 'package:cgl/constants/styles.dart';
+import 'package:cgl/internetStatusSingleton.dart';
 import 'package:cgl/components/setFamilyDialog.dart';
 import 'package:cgl/screens/home/page.dart';
 import 'package:cgl/providers/userProvider.dart';
