@@ -19,8 +19,7 @@ class FamilyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     User userProvider = UserProvider.of(context);
     String family = userProvider.document;
-    String mobileNumber =
-        userProvider.countryCode + "-" + userProvider.mobileNumber;
+    String mobileNumber = userProvider.countryCode + userProvider.mobileNumber;
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(

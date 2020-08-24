@@ -69,7 +69,6 @@ class HomeDrawer extends StatelessWidget {
                         getBackedUpItems(
                                 userProvider.document,
                                 userProvider.countryCode +
-                                    "-" +
                                     userProvider.mobileNumber)
                             .then(
                           (_) => {
@@ -78,17 +77,6 @@ class HomeDrawer extends StatelessWidget {
                           },
                         ),
                       },
-                    ),
-                    ListTile(
-                      trailing: Icon(
-                        Icons.close,
-                        color: textColor,
-                      ),
-                      title: Text(
-                        closeString,
-                        style: itemTextStyle,
-                      ),
-                      onTap: () => Navigator.pop(context),
                     ),
                   ],
                 ),
@@ -113,6 +101,17 @@ class HomeDrawer extends StatelessWidget {
                             " - " +
                             'https://play.google.com/store/apps/details?id=cambio.mihirkathpalia.cgl',
                         subject: shareEmailSubjectString),
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.close,
+                      color: textColor,
+                    ),
+                    title: Text(
+                      closeString,
+                      style: itemTextStyle,
+                    ),
+                    onTap: () => Navigator.pop(context),
                   ),
                 ],
               ),

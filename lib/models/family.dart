@@ -10,7 +10,7 @@ Future<String> createFamily(String familyName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String countryCode = prefs.getString("countryCode");
   String mobileNumber = prefs.getString("mobileNumber");
-  String user = (countryCode + ("-") + mobileNumber);
+  String user = (countryCode + mobileNumber);
   String docStatus;
   var db = Firestore.instance;
   var batch = db.batch();
@@ -60,7 +60,7 @@ Future<bool> joinFamily(String familyName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String countryCode = prefs.getString("countryCode");
   String mobileNumber = prefs.getString("mobileNumber");
-  String user = (countryCode + ("-") + mobileNumber);
+  String user = (countryCode + mobileNumber);
   bool docStatus;
   var random = new Random();
   int otp = random.nextInt(900000) + 100000;
@@ -111,7 +111,7 @@ Future<void> cancelFamilyRequest(String familyName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String countryCode = prefs.getString("countryCode");
   String mobileNumber = prefs.getString("mobileNumber");
-  String user = (countryCode + ("-") + mobileNumber);
+  String user = (countryCode + mobileNumber);
   var db = Firestore.instance;
   var batch = db.batch();
   await db.collection("lists").document(familyName).get().then((doc) => {
@@ -148,7 +148,7 @@ Future<int> verifyFamilyRequest(String pin, String familyName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String countryCode = prefs.getString("countryCode");
   String mobileNumber = prefs.getString("mobileNumber");
-  String user = (countryCode + ("-") + mobileNumber);
+  String user = (countryCode + mobileNumber);
   int returnValue;
   var db = Firestore.instance;
   var batch = db.batch();

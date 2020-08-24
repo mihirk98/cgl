@@ -6,7 +6,7 @@ String otpHintString = "Enter OTP here...";
 String codeHintString = "Enter code here...";
 String verifyNumberBeforeOTPString =
     "Enter and verify number to request OTP...";
-String mobileNumberLengthString = "Enter 10 digit mobile number...";
+String mobileNumberLengthString = "Enter valid mobile number...";
 String selectCountryCodeSnackBarString = "Select country code...";
 String enterOTPString = "Enter OTP...";
 String enterCodeTitleString = "Enter Code";
@@ -58,8 +58,7 @@ String notifyString = "Notify";
 String notifyMessageHintString = "Enter message here...";
 String notifyMessageDefaultString =
     "I'm stepping out! Let me know if you need anything!";
-String autoRetrievalAttemptString =
-    "Attempting auto retrieval, try again in a few seconds...";
+String autoRetrievalAttemptString = "Attempting OTP auto retrieval...";
 String codeString = "Code: ";
 String internetStatusString = "No internet connection...";
 String appDescription = "a collaborative list";

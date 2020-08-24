@@ -69,6 +69,8 @@ List<Map<String, String>> countryCodes = [
   {"name": "Djibouti", "dial_code": "+253", "code": "DJ"},
   {"name": "Dominica", "dial_code": "+1767", "code": "DM"},
   {"name": "Dominican Republic", "dial_code": "+1849", "code": "DO"},
+  {"name": "Dominican Republic", "dial_code": "+1829", "code": "DO"},
+  {"name": "Dominican Republic", "dial_code": "+1809", "code": "DO"},
   {"name": "Ecuador", "dial_code": "+593", "code": "EC"},
   {"name": "Egypt", "dial_code": "+20", "code": "EG"},
   {"name": "El Salvador", "dial_code": "+503", "code": "SV"},

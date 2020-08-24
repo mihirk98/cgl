@@ -2,6 +2,7 @@
 import 'dart:async';
 
 // Flutter imports:
+import 'package:cgl/actionStatusSingleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,10 +19,12 @@ import 'package:cgl/widgets/progressIndicator.dart';
 import 'package:cgl/widgets/snackBar.dart';
 import 'package:cgl/models/user.dart';
 
+ActionStatusSingleton actionStatus = ActionStatusSingleton.getInstance();
+
 String dialCode = "", mobileNumber = "", verificationId = "";
 bool otpStatus = false, timeOutStatus = false;
 
-final otpStatusStreamController = StreamController<bool>();
+final otpStatusStreamController = StreamController<bool>.broadcast();
 Stream<bool> get otpStatusStream => otpStatusStreamController.stream;
 
 class LogInController {
@@ -48,7 +51,7 @@ class LogInController {
 }
 
 verifyMobileNumber(BuildContext context, String number) {
-  if (number.length == 10) {
+  if (number.length <= 10 && number.length >= 7) {
     if (dialCode == "")
       showSnackBar(context, selectCountryCodeSnackBarString, 5);
     else {
@@ -73,20 +76,25 @@ sendOTP(BuildContext context) async {
 
   final PhoneVerificationFailed verificationfailed =
       (AuthException authException) {
+    hideProgressIndicatorDialog(context);
     showSnackBar(
         context, otpVerificationErrorString + "${authException.message}", 5);
   };
 
   final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
     hideProgressIndicatorDialog(context);
-    otpStatusStreamController.add(true);
     otpStatus = true;
     showSnackBar(context, otpSentString, 2);
+    actionStatus.descriptionSink.add(autoRetrievalAttemptString);
+    actionStatus.actionVisibilitySink.add(true);
+    Future.delayed(const Duration(milliseconds: 30000), () {
+      actionStatus.actionVisibilitySink.add(false);
+    });
     verificationId = verId;
   };
 
   final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-    timeOutStatus = true;
+    otpStatusStreamController.add(true);
     showSnackBar(context, enterOTPString, 2);
     verificationId = verId;
   };
@@ -102,11 +110,7 @@ sendOTP(BuildContext context) async {
 
 verifyOTP(BuildContext context, String otp) {
   if (otpStatus) {
-    if (timeOutStatus) {
-      signInWithOTP(context, otp);
-    } else {
-      showSnackBar(context, autoRetrievalAttemptString, 5);
-    }
+    signInWithOTP(context, otp);
   } else {
     showSnackBar(context, verifyNumberBeforeOTPString, 5);
   }

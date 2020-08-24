@@ -35,7 +35,7 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String countryCode = prefs.getString("countryCode");
     String mobileNumber = prefs.getString("mobileNumber");
-    String user = (countryCode + ("-") + mobileNumber);
+    String user = (countryCode + mobileNumber);
     Firestore.instance
         .collection("users")
         .document(user)
@@ -59,7 +59,7 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String countryCode = prefs.getString("countryCode");
     String mobileNumber = prefs.getString("mobileNumber");
-    String user = (countryCode + ("-") + mobileNumber);
+    String user = (countryCode + mobileNumber);
     Firestore.instance
         .collection("users")
         .document(user)

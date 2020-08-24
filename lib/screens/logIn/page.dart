@@ -35,18 +35,14 @@ class LogInPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    ActionStatusWidget(),
                     CountryCodeWidget(controller),
                     MobileNumberWidget(controller: controller),
                     OTPWidget(),
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  ActionStatusWidget(),
-                  InternetStatusWidget(),
-                ],
-              ),
+              InternetStatusWidget(),
             ],
           ),
         ),

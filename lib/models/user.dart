@@ -37,7 +37,7 @@ Future<User> getUser() async {
 
   if (token != null) {
     bool tokenStatus =
-        await checkToken(pref, token, countryCode + "-" + mobileNumber);
+        await checkToken(pref, token, countryCode + mobileNumber);
     if (tokenStatus) {
       token = pref.getString("token");
     }
@@ -49,44 +49,57 @@ Future<User> getUser() async {
 Future<bool> createUser(
     BuildContext context, String dialCode, String mobileNumber) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String token = await notificationToken(mobileNumber);
+  String token = await notificationToken();
   bool returnValue;
   try {
     await Firestore.instance
         .collection("users")
-        .document(dialCode + "-" + mobileNumber)
+        .document(dialCode + mobileNumber)
         .get()
-        .then((doc) => {
+        .then((doc) async => {
               if (doc.exists)
                 {
-                  Firestore.instance
+                  await Firestore.instance
                       .collection("users")
-                      .document(dialCode + "-" + mobileNumber)
+                      .document(dialCode + mobileNumber)
                       .updateData(
-                    {'token': token},
-                  ),
-                  prefs.setString('mobileNumber', mobileNumber),
-                  prefs.setString('countryCode', dialCode),
-                  prefs.setString('token', token),
-                  if (doc.data.containsKey("family"))
-                    {
-                      prefs.setString('document', doc.data["family"]),
-                    },
+                        {'token': token},
+                      )
+                      .then((_) => {
+                            prefs.setString('mobileNumber', mobileNumber),
+                            prefs.setString('countryCode', dialCode),
+                            prefs.setString('token', token),
+                            if (doc.data.containsKey("family"))
+                              {
+                                prefs.setString('document', doc.data["family"]),
+                              },
+                            returnValue = true,
+                          })
+                      .catchError((e) {
+                        returnValue = false;
+                        showSnackBar(context, errorString + e.toString(), 10);
+                      }),
                 }
               else
                 {
-                  Firestore.instance
+                  await Firestore.instance
                       .collection("users")
-                      .document(dialCode + "-" + mobileNumber)
+                      .document(dialCode + mobileNumber)
                       .setData(
-                    {'token': token},
-                  ),
-                  prefs.setString('mobileNumber', mobileNumber),
-                  prefs.setString('countryCode', dialCode),
-                  prefs.setString('token', token),
+                        {'token': token},
+                      )
+                      .then((_) => {
+                            prefs.setString('mobileNumber', mobileNumber),
+                            prefs.setString('countryCode', dialCode),
+                            prefs.setString('token', token),
+                            returnValue = true,
+                          })
+                      .catchError((e) {
+                        returnValue = false;
+                        showSnackBar(context, errorString + e.toString(), 10);
+                      }),
                 }
             });
-    returnValue = true;
   } on PlatformException catch (e) {
     returnValue = false;
     showSnackBar(context, errorString + e.toString(), 10);
@@ -94,7 +107,7 @@ Future<bool> createUser(
   return returnValue;
 }
 
-Future<String> notificationToken(String mobileNumber) async {
+Future<String> notificationToken() async {
   final FirebaseMessaging fcm = FirebaseMessaging();
   if (Platform.isIOS) {
     //ToDo IOS token upload
@@ -107,7 +120,7 @@ Future<String> notificationToken(String mobileNumber) async {
 Future<bool> checkToken(
     SharedPreferences pref, String token, String mobileNumber) async {
   bool returnValue = false;
-  String tokenValue = await notificationToken(mobileNumber);
+  String tokenValue = await notificationToken();
   if (token != tokenValue) {
     Firestore.instance.collection("users").document(mobileNumber).updateData(
       {
