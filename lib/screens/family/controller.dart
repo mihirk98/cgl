@@ -55,14 +55,15 @@ exitFamilyDialog(
 }
 
 exitFamilyFunc(String family, String user, BuildContext context) async {
-  await exitFamily(family, user).then(
-    (_) => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SetFamilyDialog(),
-      ),
-    ),
-  );
+  await exitFamily(family, user).then((status) => {
+        if (status != 3)
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SetFamilyDialog(),
+            ),
+          ),
+      });
 }
 
 backUpItemsFunc(String family, String user, BuildContext context) async {

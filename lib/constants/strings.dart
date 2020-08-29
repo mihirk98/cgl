@@ -58,7 +58,8 @@ String notifyString = "Notify";
 String notifyMessageHintString = "Enter message here...";
 String notifyMessageDefaultString =
     "I'm stepping out! Let me know if you need anything!";
-String autoRetrievalAttemptString = "Attempting OTP auto retrieval...";
+String autoRetrievalAttemptString =
+    "Attempting OTP auto retrieval, kindly wait...";
 String codeString = "Code: ";
 String internetStatusString = "No internet connection...";
 String appDescription = "a collaborative list";
@@ -77,6 +78,7 @@ String familyFAQ9String =
 String familyFAQ10String = "I wish to use the app alone:";
 String familyFAQ11String =
     "Create a family. This allows you to share your list in the future if you'd like.";
+String failureString = "Action failure, try again...";
 String requestString = "Requests";
 String membersSting = "Members";
 String errorString = "Error...";

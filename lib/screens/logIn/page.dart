@@ -32,14 +32,16 @@ class LogInPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ActionStatusWidget(),
-                    CountryCodeWidget(controller),
-                    MobileNumberWidget(controller: controller),
-                    OTPWidget(),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ActionStatusWidget(),
+                      CountryCodeWidget(controller),
+                      MobileNumberWidget(controller: controller),
+                      OTPWidget(),
+                    ],
+                  ),
                 ),
               ),
               InternetStatusWidget(),

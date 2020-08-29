@@ -14,6 +14,7 @@ import 'package:cgl/screens/home/controller.dart';
 import 'package:cgl/screens/home/dialogs/familyNotifyDialog.dart';
 import 'package:cgl/screens/home/widgets/addItem.dart';
 import 'package:cgl/screens/home/widgets/items.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     User userProvider = UserProvider.of(context);
     String family = userProvider.document;
     return WillPopScope(
-      onWillPop: () => null,
+      onWillPop: () => onWillPop(),
       child: Scaffold(
         backgroundColor: backgroundColor,
         drawer: HomeDrawer(userProvider),
@@ -46,9 +47,8 @@ class _HomePageState extends State<HomePage> {
                   barrierDismissible: false,
                   builder: (BuildContext context) {
                     return FamilyNotifyDialog(
-                      mobileNumber: userProvider.countryCode +
-                          "-" +
-                          userProvider.mobileNumber,
+                      mobileNumber:
+                          userProvider.countryCode + userProvider.mobileNumber,
                       family: userProvider.document,
                     );
                   },
@@ -107,5 +107,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  onWillPop() {
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
 }

@@ -295,15 +295,12 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
       String familyStatus =
           await createFamily(createFamilyController.text.toLowerCase());
       if (familyStatus == "0") {
+        hideProgressIndicatorDialog(context);
         showSnackBar(context, familyExistsString, 5);
       } else if (familyStatus != "1") {
-        actionStatus.descriptionSink.add(familyStatus);
-        actionStatus.actionVisibilitySink.add(true);
-        Future.delayed(const Duration(milliseconds: 5000), () {
-          actionStatus.actionVisibilitySink.add(false);
-        });
+        hideProgressIndicatorDialog(context);
+        showSnackBar(context, familyStatus, 5);
       }
-      hideProgressIndicatorDialog(context);
     } else {
       showSnackBar(context, familyNameString, 2);
     }
@@ -431,6 +428,8 @@ class _FamilyRequestDialogState extends State<FamilyRequestDialog> {
               otpStatusText = incorrectOTPString;
             } else if (status == 2) {
               otpStatusText = familtNotExistsString;
+            } else if (status == 3) {
+              otpStatusText = failureString;
             }
           }),
         });

@@ -18,7 +18,7 @@ Future<String> createFamily(String familyName) async {
       .collection("lists")
       .document(familyName)
       .get()
-      .then((doc) => {
+      .then((doc) async => {
             if (!doc.exists)
               {
                 batch.setData(db.collection("lists").document(familyName), {
@@ -39,9 +39,15 @@ Future<String> createFamily(String familyName) async {
                     'unit': 'unit/s'
                   },
                 ),
-                batch.commit(),
-                prefs.setString('document', familyName),
-                docStatus = "1",
+                await batch
+                    .commit()
+                    .then((_) => {
+                          prefs.setString('document', familyName),
+                          docStatus = "1",
+                        })
+                    .catchError((e) {
+                  docStatus = e.toString();
+                }),
               }
             else
               {
@@ -66,7 +72,7 @@ Future<bool> joinFamily(String familyName) async {
   int otp = random.nextInt(900000) + 100000;
   var db = Firestore.instance;
   var batch = db.batch();
-  await db.collection("lists").document(familyName).get().then((doc) => {
+  await db.collection("lists").document(familyName).get().then((doc) async => {
         if (doc.exists)
           {
             batch.updateData(
@@ -91,7 +97,7 @@ Future<bool> joinFamily(String familyName) async {
                 'request': familyName,
               },
             ),
-            batch.commit().then((_) => {
+            await batch.commit().then((_) => {
                   httpsCallable.call(<String, dynamic>{
                     'requestee': user,
                     'family': familyName,
@@ -153,58 +159,80 @@ Future<int> verifyFamilyRequest(String pin, String familyName) async {
   var db = Firestore.instance;
   var batch = db.batch();
   if (pin.length == 6) {
-    await db.collection("lists").document(familyName).get().then((doc) => {
-          if (doc.exists)
-            {
-              if (doc.data[user] == pin)
+    await db
+        .collection("lists")
+        .document(familyName)
+        .get()
+        .then((doc) async => {
+              if (doc.exists)
                 {
-                  batch
-                      .updateData(db.collection("lists").document(familyName), {
-                    'requests': FieldValue.arrayRemove([user])
-                  }),
-                  batch
-                      .updateData(db.collection("lists").document(familyName), {
-                    'family': FieldValue.arrayUnion([user])
-                  }),
-                  batch.updateData(
-                    db.collection("lists").document(familyName),
+                  if (doc.data[user] == pin)
                     {
-                      user: FieldValue.delete(),
-                    },
-                  ),
-                  batch.updateData(
-                    db.collection("users").document(user),
+                      batch.updateData(
+                          db.collection("lists").document(familyName), {
+                        'requests': FieldValue.arrayRemove([user])
+                      }),
+                      batch.updateData(
+                          db.collection("lists").document(familyName), {
+                        'family': FieldValue.arrayUnion([user])
+                      }),
+                      batch.updateData(
+                        db.collection("lists").document(familyName),
+                        {
+                          user: FieldValue.delete(),
+                        },
+                      ),
+                      batch.updateData(
+                        db.collection("users").document(user),
+                        {
+                          'request': FieldValue.delete(),
+                        },
+                      ),
+                      batch.updateData(
+                        db.collection("users").document(user),
+                        {
+                          'family': familyName,
+                        },
+                      ),
+                      batch
+                          .commit()
+                          .then(
+                            (_) => {
+                              returnValue = 0,
+                            },
+                          )
+                          .catchError((e) {
+                        returnValue = 3;
+                      }),
+                    }
+                  else
                     {
-                      'request': FieldValue.delete(),
-                    },
-                  ),
-                  batch.updateData(
-                    db.collection("users").document(user),
-                    {
-                      'family': familyName,
-                    },
-                  ),
-                  batch.commit(),
-                  returnValue = 0,
+                      returnValue = 1,
+                    }
                 }
               else
                 {
-                  returnValue = 1,
+                  await db
+                      .collection("users")
+                      .document(user)
+                      .updateData(
+                        {
+                          'request': FieldValue.delete(),
+                        },
+                      )
+                      .then((value) => {
+                            returnValue = 2,
+                          })
+                      .catchError(
+                        (e) {
+                          returnValue = 3;
+                        },
+                      ),
                 }
-            }
-          else
-            {
-              db
-                  .collection("users")
-                  .document(user)
-                  .updateData({'request': FieldValue.delete()}),
-              returnValue = 2,
-            }
-        });
+            });
   } else {
     returnValue = 1;
   }
-
   return returnValue;
 }
 
@@ -239,13 +267,18 @@ Future<int> exitFamily(String family, String user) async {
           .split(", ");
       if (familyMembersList.length == 1) {
         batch.delete(db.collection("lists").document(family));
-        batch.commit();
         returnValue = 2;
       } else {
-        batch.commit();
         returnValue = 1;
       }
-      prefs.setString('document', null);
+      batch
+          .commit()
+          .then((_) => {
+                prefs.setString('document', null),
+              })
+          .catchError((e) {
+        returnValue = 3;
+      });
     } else {
       batch.updateData(
         db.collection("users").document(user),
@@ -253,9 +286,15 @@ Future<int> exitFamily(String family, String user) async {
           'family': FieldValue.delete(),
         },
       );
-      batch.commit();
-      prefs.setString('document', null);
-      returnValue = 0;
+      batch
+          .commit()
+          .then((_) => {
+                prefs.setString('document', null),
+                returnValue = 0,
+              })
+          .catchError((e) {
+        returnValue = 3;
+      });
     }
   });
   return returnValue;

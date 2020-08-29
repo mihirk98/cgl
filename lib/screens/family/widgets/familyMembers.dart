@@ -97,8 +97,7 @@ class FamilyMembersWidget extends StatelessWidget {
                                     ),
                                 ],
                               ),
-                        familyMembersList.toString() == "[null]" ||
-                                familyMembersList.toString() == "[]"
+                        familyMembersList.length == 1
                             ? Container()
                             : Column(
                                 children: [

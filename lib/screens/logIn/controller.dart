@@ -87,13 +87,11 @@ sendOTP(BuildContext context) async {
     showSnackBar(context, otpSentString, 2);
     actionStatus.descriptionSink.add(autoRetrievalAttemptString);
     actionStatus.actionVisibilitySink.add(true);
-    Future.delayed(const Duration(milliseconds: 30000), () {
-      actionStatus.actionVisibilitySink.add(false);
-    });
     verificationId = verId;
   };
 
   final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+    actionStatus.actionVisibilitySink.add(false);
     otpStatusStreamController.add(true);
     showSnackBar(context, enterOTPString, 2);
     verificationId = verId;
