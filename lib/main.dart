@@ -73,7 +73,7 @@ class _MainPageState extends State<MainPage> {
       textTheme: Theme.of(context).textTheme.apply(
             bodyColor: textColor,
             displayColor: textColor,
-            fontFamily: fontString,
+            fontFamily: "Roboto",
           ),
       accentColor: secondaryColor,
       textSelectionHandleColor: secondaryColor,

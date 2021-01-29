@@ -93,5 +93,3 @@ String notificationString = "Notification";
 String closeString = "Close";
 String shareString = "Share app";
 String downloadString = "Download backup items";
-
-String fontString = "Roboto";

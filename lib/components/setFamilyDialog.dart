@@ -21,6 +21,8 @@ import 'package:cgl/models/family.dart';
 
 ActionStatusSingleton actionStatus = ActionStatusSingleton.getInstance();
 
+bool joinFamilyLoadingDialog = false;
+
 class SetFamilyDialog extends StatefulWidget {
   _SetFamilyDialogState createState() => _SetFamilyDialogState();
 }
@@ -44,7 +46,12 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
       if (doc.exists) {
         if (doc.data.containsKey("request")) {
           requestDialog = true;
+          if (joinFamilyLoadingDialog) {
+            hideProgressIndicatorDialog(context);
+            joinFamilyLoadingDialog = false;
+          }
           showFamilyRequestDialog(context, scaffoldKey, doc.data["request"]);
+          print("showFamilyRequestDialog");
         } else {
           if (requestDialog) {
             requestDialog = false;
@@ -363,12 +370,12 @@ class _SetFamilyDialogState extends State<SetFamilyDialog> {
     if (joinFamilyController.text.length != 0) {
       createFamilyController.text = "";
       showProgressIndicatorDialog(context);
+      joinFamilyLoadingDialog = true;
       bool familyStatus =
           await joinFamily(joinFamilyController.text.toLowerCase());
       if (!familyStatus) {
         showSnackBar(context, familtNotExistsString, 5);
       }
-      hideProgressIndicatorDialog(context);
     } else {
       showSnackBar(context, familyNameString, 2);
     }
